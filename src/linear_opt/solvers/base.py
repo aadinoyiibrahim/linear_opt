@@ -1,3 +1,4 @@
+"""Backend interface, factory and generic row generation."""
 
 from __future__ import annotations
 

@@ -9,7 +9,7 @@ from typer.testing import CliRunner
 from linear_opt import __version__
 from linear_opt.cli import app
 from linear_opt.core.backends import is_available
-from linear_opt.core.config import BackendName
+from linear_opt.core.config import BackendName, load_config
 from linear_opt.data import geonames
 
 from .conftest import CONFIG_DIR, INSTALLED
@@ -48,7 +48,8 @@ def test_solve_writes_json_and_html(tmp_path: Path) -> None:
     assert result.exit_code == 0, result.output
     summary = json.loads(out_json.read_text())
     assert summary["status"] == "optimal" and summary["violations"] == []
-    assert summary["model"]["variables"] == 12 * 30
+    params = load_config(SYNTHETIC).instance.params
+    assert summary["model"]["variables"] == params["n_sources"] * params["n_sinks"]
     assert out_html.stat().st_size > 1000
 
 

@@ -167,7 +167,8 @@ def test_registry_builds_synthetic_model() -> None:
     cfg = load_config(CONFIG_DIR / "transport_synthetic.toml")
     model = registry.model_from_config(cfg)
     assert isinstance(model, TransportModel)
-    assert model.data.shape == (12, 30)
+    params = cfg.instance.params
+    assert model.data.shape == (params["n_sources"], params["n_sinks"])
 
 
 def test_registry_reports_missing_city_snapshot(

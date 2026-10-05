@@ -1,3 +1,4 @@
+"""linear_opt command-line interface. Run ``linopt --help``."""
 
 from __future__ import annotations
 
