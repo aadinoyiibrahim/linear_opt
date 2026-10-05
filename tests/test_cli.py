@@ -4,9 +4,10 @@ import json
 from pathlib import Path
 
 import pytest
+from rich.console import Console
 from typer.testing import CliRunner
 
-from linear_opt import __version__
+from linear_opt import __version__, cli
 from linear_opt.cli import app
 from linear_opt.core.backends import is_available
 from linear_opt.core.config import BackendName, load_config
@@ -18,6 +19,13 @@ from .test_transport import CITIES
 runner = CliRunner()
 SYNTHETIC = str(CONFIG_DIR / "transport_synthetic.toml")
 needs_solver = pytest.mark.skipif(not INSTALLED, reason="no solver backend installed")
+
+
+@pytest.fixture(autouse=True)
+def _plain_console(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Assert on text, not ANSI: CI sets FORCE_COLOR, which rich honours at import."""
+    monkeypatch.setattr(cli, "console", Console(color_system=None, highlight=False))
+    monkeypatch.setattr(cli, "err", Console(stderr=True, color_system=None, highlight=False))
 
 
 def test_info_prints_version() -> None:
