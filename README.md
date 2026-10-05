@@ -25,6 +25,7 @@ uv pip install pylint
 uv run pyreverse -o png -p linear_opt src/linear_opt/
 ```
 
+![Alternative Text](./packages_linear_opt.png)
 
 ---
 
