@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage*
+coverage.xml
+htmlcov/
+.hypothesis/
+# Docs
+site/
+# Solver artefacts
+*.lp
+*.mps
+*.sol
+*.ilp
+gurobi.log
+gurobi.lic
+# Data: downloaded on demand, only CI fixtures are versioned
+data/raw/
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+.scratch/
+
+# Reports and solver outputs
+out/
+
+# Streamlit agent skills (environment-specific symlinks created on first run)
+.agents/
+.claude/skills/developing-with-streamlit

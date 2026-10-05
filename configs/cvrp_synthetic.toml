@@ -1,0 +1,19 @@
+# Random CVRP: 14 customers around a central depot; no download needed.
+[problem]
+kind = "cvrp"
+name = "synthetic-14"
+
+[instance]
+source = "synthetic"
+id = "uniform"
+seed = 5
+
+[instance.params]
+n_customers = 14
+capacity = 60.0
+spare_vehicles = 1
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0

@@ -1,0 +1,19 @@
+# Random facility-location instance, no download needed.
+[problem]
+kind = "facility_location"
+name = "synthetic-15x50"
+
+[instance]
+source = "synthetic"
+id = "uniform"
+seed = 3
+
+[instance.params]
+n_facilities = 15
+n_customers = 50
+capacity_ratio = 1.6
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0

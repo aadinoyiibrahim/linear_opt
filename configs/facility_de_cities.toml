@@ -1,0 +1,25 @@
+# Where to open warehouses in Germany: 60 largest cities as customers,
+# the 20 largest as candidate sites. Real geography, stylised costs.
+[problem]
+kind = "facility_location"
+name = "de-warehouses"
+
+[instance]
+source = "geonames-de"
+id = "fixture"
+
+[instance.params]
+n_cities = 60
+n_candidates = 20
+capacity_ratio = 2.5     # total capacity of all sites / total demand
+fixed_cost = 50000.0     # opening cost of a median-size site
+unit_cost = 1.0          # cost per (1000 inhabitants x km)
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0
+
+[model]
+formulation = "strong"
+single_sourcing = true

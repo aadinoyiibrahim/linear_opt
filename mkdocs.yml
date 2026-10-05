@@ -1,0 +1,35 @@
+site_name: linear_opt
+site_description: LP/MILP modelling with Gurobi and HiGHS on real benchmark data
+repo_url: https://github.com/aadinoyiibrahim/linear_opt
+theme:
+  name: material
+  features: [navigation.sections, content.code.copy]
+  palette:
+    - scheme: default
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - scheme: slate
+      toggle: { icon: material/weather-sunny, name: Light mode }
+markdown_extensions:
+  - admonition
+  - pymdownx.arithmatex: { generic: true }
+  - pymdownx.superfences
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options: { docstring_style: google, show_source: false }
+nav:
+  - Home: index.md
+  - Configuration: configuration.md
+  - Problems:
+      - Transport (LP): problems-transport.md
+      - Facility location (MILP): problems-facility.md
+      - Routing (TSP, CVRP): problems-routing.md
+      - Job-shop scheduling: problems-scheduling.md
+  - Dashboard: dashboard.md
+  - Data sources: data.md
+  - Deployment: deployment.md
+  - API reference: api.md

@@ -1,0 +1,18 @@
+# Random 25-city TSP (rounded Euclidean distances); no download needed.
+# Compare formulations: uv run linopt variants configs/tsp_synthetic.toml
+[problem]
+kind = "tsp"
+name = "synthetic-25"
+
+[instance]
+source = "synthetic"
+id = "uniform"
+seed = 11
+
+[instance.params]
+n = 25
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0

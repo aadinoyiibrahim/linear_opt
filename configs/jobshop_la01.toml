@@ -1,0 +1,18 @@
+# Lawrence la01: 10 jobs x 5 machines, optimal makespan 666 (JSPLIB).
+# Gurobi proves it in well under a second; HiGHS finds it but proves slowly.
+[problem]
+kind = "job_shop"
+name = "la01"
+
+[instance]
+source = "jsplib"
+id = "la01"
+
+[solver]
+backend = "auto"
+time_limit = 120.0
+mip_gap = 0.0
+
+[model]
+formulation = "disjunctive"
+big_m = "tight"

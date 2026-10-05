@@ -1,0 +1,21 @@
+# Capacitated facility location, OR-Library cap41: 16 sites x 50 customers.
+# Published optimum 1 040 444.375 (Beasley, capopt.txt). Fetch data once:
+#   uv run linopt data orlib-cap
+[problem]
+kind = "facility_location"
+name = "cap41"
+
+[instance]
+source = "orlib-cap"
+id = "cap41"
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0
+
+[model]
+formulation = "strong"          # "strong" (x_ij <= y_i) or "weak" (aggregated only)
+aggregate_capacity_cut = true   # sum_i s_i y_i >= total demand
+single_sourcing = false         # true: each customer served by exactly one site
+warm_start = "greedy"           # MIP start from a greedy heuristic, or "none"

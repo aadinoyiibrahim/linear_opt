@@ -1,0 +1,15 @@
+# Dashboard theme, matching the chart palette (linear_opt.viz.theme).
+[theme]
+base = "light"
+primaryColor = "#2a78d6"
+backgroundColor = "#f9f9f7"
+secondaryBackgroundColor = "#f0efec"
+textColor = "#0b0b0b"
+font = "sans serif"
+
+[server]
+headless = false
+runOnSave = false
+
+[browser]
+gatherUsageStats = false

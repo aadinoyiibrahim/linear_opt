@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call: # reused by the release workflow
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  HYPOTHESIS_PROFILE: ci # derandomised property tests (see tests/conftest.py)
+  FORCE_COLOR: "1"
+
+jobs:
+  lint:
+    name: Lint, format, types, lockfile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv lock --check
+      - run: uv sync --locked --all-extras
+      - run: uv run ruff check --output-format=github .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+
+  test:
+    name: Test (py${{ matrix.python }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.11", "3.12", "3.13"]
+        include:
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python }}
+      # gurobipy runs on its bundled size-restricted licence; HiGHS is unrestricted.
+      # Benchmark snapshots are committed, so the published-optimum tests
+      # (cap41, berlin52, A-n32-k5, ft06, la01-la05, ...) run on every push.
+      # Instances beyond the licence are marked `large` (see large.yml).
+      - run: uv sync --locked --all-extras
+      - run: uv run pytest --cov --cov-report=xml --cov-report=term --cov-fail-under=90
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.12'
+        with:
+          name: coverage
+          path: coverage.xml
+
+  docs:
+    name: Docs build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked --group docs
+      - run: uv run mkdocs build --strict
+
+  docker:
+    name: Docker image (smoke tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: linear-opt:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: CLI
+        run: |
+          docker run --rm linear-opt:ci info
+          docker run --rm linear-opt:ci validate $(ls configs/*.toml | sed 's|^|/app/|')
+          # `solve` exits non-zero unless the solution is optimal-feasible and validated
+          docker run --rm linear-opt:ci solve configs/jobshop_ft06.toml --backend gurobi
+          docker run --rm linear-opt:ci solve configs/jobshop_ft06.toml --backend highs
+          docker run --rm linear-opt:ci solve configs/tsp_berlin52.toml
+          docker run --rm linear-opt:ci solve configs/facility_cap41.toml
+      - name: Dashboard health check
+        run: |
+          docker run -d --name app -p 8501:8501 linear-opt:ci app --headless --address 0.0.0.0
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8501/_stcore/health; then echo " healthy"; exit 0; fi
+            sleep 2
+          done
+          docker logs app
+          exit 1
+      - name: Stop dashboard
+        if: always()
+        run: docker rm -f app || true

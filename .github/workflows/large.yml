@@ -1,0 +1,47 @@
+name: Large instances (full Gurobi licence)
+
+# Instances above the restricted pip licence (~2000 variables/constraints).
+# Needs a Gurobi Web License Service (WLS) licence stored as repository secrets
+# GRB_WLSACCESSID, GRB_WLSSECRET and GRB_LICENSEID; skipped otherwise.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  large:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      HAS_LICENCE: ${{ secrets.GRB_WLSACCESSID != '' }}
+    steps:
+      - name: Licence available?
+        if: env.HAS_LICENCE != 'true'
+        run: echo "::notice::No WLS secrets configured; skipping large instances."
+      - uses: actions/checkout@v4
+        if: env.HAS_LICENCE == 'true'
+      - uses: astral-sh/setup-uv@v6
+        if: env.HAS_LICENCE == 'true'
+        with:
+          enable-cache: true
+      - name: Write licence file
+        if: env.HAS_LICENCE == 'true'
+        env:
+          WLSACCESSID: ${{ secrets.GRB_WLSACCESSID }}
+          WLSSECRET: ${{ secrets.GRB_WLSSECRET }}
+          LICENSEID: ${{ secrets.GRB_LICENSEID }}
+        run: |
+          printf 'WLSACCESSID=%s\nWLSSECRET=%s\nLICENSEID=%s\n' "$WLSACCESSID" "$WLSSECRET" "$LICENSEID" > "$RUNNER_TEMP/gurobi.lic"
+          echo "GRB_LICENSE_FILE=$RUNNER_TEMP/gurobi.lic" >> "$GITHUB_ENV"
+      - name: Fetch large benchmark instances
+        if: env.HAS_LICENCE == 'true'
+        run: |
+          uv sync --locked --all-extras
+          uv run linopt data orlib-cap cap131 cap134
+      - name: Large tests
+        if: env.HAS_LICENCE == 'true'
+        run: uv run pytest -m large -v

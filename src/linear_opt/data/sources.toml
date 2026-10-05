@@ -1,0 +1,57 @@
+# Provenance and licensing of every external dataset.
+# Files are downloaded on demand into the cache directory ($LINEAR_OPT_DATA_DIR,
+# default ~/.cache/linear_opt) and verified by SHA-256 where the upstream file is
+# static. Small, reproducible snapshots ship in linear_opt/data/fixtures/.
+
+[geonames-de]
+title = "GeoNames: populated places in Germany"
+homepage = "https://www.geonames.org/"
+license = "CC BY 4.0"
+attribution = "GeoNames (geonames.org)"
+used_by = ["transport"]
+
+[osm-de]
+title = "OpenStreetMap road distances (via the OSRM table service)"
+homepage = "https://www.openstreetmap.org/copyright"
+license = "ODbL 1.0"
+attribution = "© OpenStreetMap contributors"
+used_by = ["transport"]
+
+[orlib-cap]
+title = "OR-Library capacitated warehouse location (cap41-cap134)"
+homepage = "http://people.brunel.ac.uk/~mastjjb/jeb/info.html"
+license = "No explicit licence; freely distributed for research. Cite source."
+citation = "J.E. Beasley (1990), OR-Library: distributing test problems by electronic mail, J. Oper. Res. Soc. 41(11):1069-1072."
+used_by = ["facility_location"]
+files = "cap41.txt ... cap134.txt, capopt.txt (known optima) under orlib/files/"
+
+[orlib-jobshop]
+title = "OR-Library job-shop instances (ft06, la01, ...)"
+homepage = "http://people.brunel.ac.uk/~mastjjb/jeb/info.html"
+license = "No explicit licence; freely distributed for research. Cite source."
+citation = "J.E. Beasley (1990), OR-Library, J. Oper. Res. Soc. 41(11):1069-1072."
+used_by = ["job_shop"]
+
+[tsplib]
+title = "TSPLIB 95"
+homepage = "http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/"
+license = "No explicit licence; freely distributed for research. Cite source."
+citation = "G. Reinelt (1991), TSPLIB: A traveling salesman problem library, ORSA J. Computing 3(4):376-384."
+used_by = ["tsp"]
+files = "<name>.tsp and <name>.opt.tour; mirror github.com/pdrozdowski/TSPLib.Net (MIT), fallback Heidelberg .gz; optima from the STSP table"
+
+[cvrplib]
+title = "CVRPLIB (Augerat set A)"
+homepage = "https://galgos.inf.puc-rio.br/cvrplib/"
+license = "No explicit licence; freely distributed for research. Cite source."
+citation = "P. Augerat et al. (1995), Computational results with a branch and cut code for the CVRP, Res. Rep. 949-M, Univ. Joseph Fourier."
+used_by = ["cvrp"]
+files = "<name>.vrp and <name>.sol (optimal routes and cost)"
+
+[jsplib]
+title = "JSPLIB: job-shop benchmark instances with optima and bounds"
+homepage = "https://github.com/tamy0612/JSPLIB"
+license = "No explicit licence; classic public benchmarks. Cite the original authors."
+citation = "Fisher & Thompson (1963, ft06/ft10/ft20); Lawrence (1984, la01-la40); Adams, Balas & Zawack (1988, abz); Applegate & Cook (1991, orb); Storer, Wu & Vaccari (1992, swv); Yamada & Nakano (1992, yn); Taillard (1993, ta)."
+files = "instances/<name> and instances.json (optimum or bounds per instance)"
+used_by = ["job_shop"]

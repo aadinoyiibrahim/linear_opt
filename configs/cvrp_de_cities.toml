@@ -1,0 +1,20 @@
+# Deliveries from Kassel (central Germany) to the 24 largest cities;
+# demand = population / 25 000 (rounded up), trucks carry 150 units.
+[problem]
+kind = "cvrp"
+name = "de-deliveries"
+
+[instance]
+source = "geonames-de"
+id = "fixture"
+
+[instance.params]
+n_cities = 25
+depot = "Kassel"
+capacity = 150.0
+vehicles = 6      # at least ceil(694 / 150) = 5 are needed
+
+[solver]
+backend = "gurobi"
+time_limit = 120.0
+mip_gap = 0.0

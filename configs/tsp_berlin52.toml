@@ -1,0 +1,19 @@
+# TSPLIB berlin52 (52 locations in Berlin; optimum 7542). Fetch data once:
+#   uv run linopt data tsplib berlin52
+[problem]
+kind = "tsp"
+name = "berlin52"
+
+[instance]
+source = "tsplib"
+id = "berlin52"
+
+[solver]
+backend = "auto"
+time_limit = 120.0
+mip_gap = 0.0
+
+[model]
+formulation = "dfj"     # "dfj" (lazy subtour cuts), "scf" (flow), "mtz"
+warm_start = "two_opt"  # nearest neighbour + 2-opt MIP start, or "none"
+root_cuts = true        # fractional subtour cuts at the root (min-cut separation)

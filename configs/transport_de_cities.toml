@@ -1,0 +1,23 @@
+# Discrete optimal transport between German cities (LP).
+# Sources (depots) and sinks (cities) are drawn from GeoNames; mass = population.
+[problem]
+kind = "transport"
+name = "de-cities"
+
+[instance]
+source = "geonames-de"
+id = "fixture"     # packaged snapshot; "live" downloads cities15000.zip
+seed = 42
+
+[instance.params]
+n_cities = 40      # largest German cities; keep <= ~45 for the restricted Gurobi licence
+n_sources = 8      # of which this many act as depots
+slack = 0.10       # total depot capacity = (1 + slack) * total demand
+cost = "haversine" # or "road" (OSRM table service, OpenStreetMap data)
+
+[solver]
+backend = "auto"
+time_limit = 30.0
+
+[model]
+supply_constraint = "le"   # "le": capacity; "eq": balanced (requires slack = 0)

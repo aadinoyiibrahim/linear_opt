@@ -1,0 +1,20 @@
+# Random 6 jobs x 4 machines, durations 1..10; no download needed.
+# Compare formulations: uv run linopt variants configs/jobshop_synthetic.toml
+[problem]
+kind = "job_shop"
+name = "synthetic-6x4"
+
+[instance]
+source = "synthetic"
+id = "taillard"
+seed = 3
+
+[instance.params]
+n_jobs = 6
+n_machines = 4
+max_duration = 10
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0

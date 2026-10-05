@@ -1,0 +1,18 @@
+# Random transport instance in the unit square: no download needed.
+[problem]
+kind = "transport"
+name = "synthetic-12x30"
+
+[instance]
+source = "synthetic"
+id = "uniform"
+seed = 7
+
+[instance.params]
+n_sources = 12
+n_sinks = 30
+slack = 0.15
+
+[solver]
+backend = "auto"
+time_limit = 30.0

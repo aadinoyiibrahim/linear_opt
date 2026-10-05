@@ -1,0 +1,19 @@
+# Fisher & Thompson ft06: 6 jobs x 6 machines, optimal makespan 55 (JSPLIB).
+# Fetch data once:  uv run linopt data jsplib
+[problem]
+kind = "job_shop"
+name = "ft06"
+
+[instance]
+source = "jsplib"
+id = "ft06"
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0
+
+[model]
+formulation = "disjunctive"    # or "time_indexed" (needs integer, short durations)
+big_m = "tight"                # M from a Giffler-Thompson horizon, or "naive" (sum of p)
+warm_start = "giffler_thompson"

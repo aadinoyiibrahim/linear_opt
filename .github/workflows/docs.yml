@@ -1,0 +1,25 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**", "mkdocs.yml", "src/**", "README.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: write # gh-deploy pushes to the gh-pages branch
+
+concurrency:
+  group: docs
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked --group docs
+      - run: uv run mkdocs gh-deploy --force --strict

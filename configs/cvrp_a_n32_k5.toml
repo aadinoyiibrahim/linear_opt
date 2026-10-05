@@ -1,0 +1,20 @@
+# CVRPLIB A-n32-k5 (Augerat; 31 customers, Q = 100, 5 vehicles; optimum 784).
+# Fetch data once:  uv run linopt data cvrplib A-n32-k5
+[problem]
+kind = "cvrp"
+name = "A-n32-k5"
+
+[instance]
+source = "cvrplib"
+id = "A-n32-k5"
+
+[solver]
+backend = "gurobi"   # needs in-tree lazy cuts to be fast; HiGHS uses row generation
+time_limit = 300.0
+mip_gap = 0.0
+
+[model]
+formulation = "two_index"  # or "mtz"
+fleet = "at_most"          # or "exact": use exactly K vehicles
+warm_start = "savings"     # Clarke-Wright MIP start, or "none"
+root_cuts = true

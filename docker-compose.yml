@@ -1,0 +1,34 @@
+# docker compose up            -> dashboard on http://localhost:8501
+# docker compose run --rm cli solve configs/jobshop_ft06.toml --html out/ft06.html
+#
+# Full Gurobi licence: put gurobi.lic next to this file and uncomment the two
+# marked lines in each service (otherwise the restricted pip licence is used).
+services:
+  app:
+    build: .
+    image: ghcr.io/aadinoyiibrahim/linear_opt:latest
+    command: ["app", "--headless", "--address", "0.0.0.0"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./configs:/app/configs:ro
+      # - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro              # full licence
+    # environment:
+    #   GRB_LICENSE_FILE: /opt/gurobi/gurobi.lic               # full licence
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    restart: unless-stopped
+
+  cli:
+    image: ghcr.io/aadinoyiibrahim/linear_opt:latest
+    profiles: ["cli"]
+    volumes:
+      - ./configs:/app/configs:ro
+      - ./out:/app/out
+      # - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro              # full licence
+    # environment:
+    #   GRB_LICENSE_FILE: /opt/gurobi/gurobi.lic               # full licence

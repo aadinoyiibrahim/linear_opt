@@ -1,0 +1,19 @@
+# Shortest round trip through the 45 largest German cities (great-circle km).
+[problem]
+kind = "tsp"
+name = "de-roundtrip"
+
+[instance]
+source = "geonames-de"
+id = "fixture"
+
+[instance.params]
+n_cities = 45     # 990 edge variables: fits the restricted Gurobi licence
+
+[solver]
+backend = "auto"
+time_limit = 60.0
+mip_gap = 0.0
+
+[model]
+formulation = "dfj"

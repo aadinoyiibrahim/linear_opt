@@ -1,0 +1,24 @@
+# cap41 with solver cuts and presolve switched off, so that the effect of the
+# formulation itself (strong vs weak) shows up in nodes and runtime:
+#   uv run linopt variants configs/facility_cap41_textbook.toml
+[problem]
+kind = "facility_location"
+name = "cap41-textbook"
+
+[instance]
+source = "orlib-cap"
+id = "cap41"
+
+[solver]
+backend = "auto"
+time_limit = 120.0
+mip_gap = 0.0
+
+[solver.gurobi]   # native parameters, applied after the generic ones
+Cuts = 0
+Presolve = 0
+Heuristics = 0
+
+[solver.highs]
+presolve = "off"
+mip_heuristic_effort = 0.0

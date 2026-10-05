@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "linear_opt: production-grade LP/MILP modelling with Gurobi and HiGHS"
+type: software
+authors:
+  - family-names: Ibrahim
+    given-names: Abdullahi Adinoyi
+    affiliation: TU Dresden
+version: 0.1.0
+date-released: 2026-10-02
+license: MIT
+repository-code: "https://github.com/aadinoyiibrahim/linear_opt"
+keywords:
+  - linear programming
+  - mixed-integer programming
+  - Gurobi
+  - HiGHS
+  - operations research
+  - vehicle routing
+  - scheduling
