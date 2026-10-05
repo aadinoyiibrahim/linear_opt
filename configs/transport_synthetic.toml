@@ -9,8 +9,8 @@ id = "uniform"
 seed = 7
 
 [instance.params]
-n_sources = 12
-n_sinks = 30
+n_sources = 20 # 12
+n_sinks = 60 # 30
 slack = 0.15
 
 [solver]

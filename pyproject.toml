@@ -1,11 +1,11 @@
 [project]
 name = "linear-opt"
 version = "0.1.0"
-description = "Production-grade LP/MILP modelling with Gurobi (and a HiGHS fallback): transport, facility location, routing and scheduling on real benchmark data."
+description = "LP/MILP modelling with Gurobi and a HiGHS fallback."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Abdullahi Adinoyi Ibrahim" }]
+authors = [{ name = "Abdullahi Ibrahim aadinoyiibrahim" }]
 keywords = ["optimization", "linear programming", "mixed-integer programming", "gurobi", "highs", "operations research"]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -61,7 +61,7 @@ packages = ["src/linear_opt"]
 [tool.uv]
 default-groups = ["dev"]
 
-# ---------------------------------------------------------------- ruff
+# ----- ruff
 [tool.ruff]
 line-length = 100
 target-version = "py311"

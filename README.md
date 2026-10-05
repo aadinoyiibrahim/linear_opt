@@ -5,19 +5,26 @@
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Production-grade linear and mixed-integer optimisation in Python.
-**Gurobi** is the primary solver; **HiGHS** is an open-source fallback, so
-everything also runs without a commercial licence. Models are solved on real
-benchmark data, checked independently of the solver, and explored through
-interactive Plotly reports and a Streamlit dashboard.
+## Linear and mixed-integer optimisation in Python.
+- **Gurobi** is the primary solver; 
+- **HiGHS** is an open-source fallback, 
+so everything also runs without a commercial licence. Models are solved on real benchmark data, checked independently of the solver, and explored through interactive Plotly reports and a Streamlit dashboard.
 
-| Problem | Class | Data | Status |
-|---|---|---|---|
-| Transport / optimal transport | LP | German cities (GeoNames), synthetic | ✅ implemented |
-| Capacitated facility location | MILP | OR-Library cap41–cap134, German cities, synthetic | ✅ implemented |
-| Travelling salesman | MILP + lazy cuts | TSPLIB (berlin52, …), German cities, synthetic | ✅ implemented |
-| Vehicle routing (CVRP) | MILP + lazy cuts | CVRPLIB A-n32-k5, German cities, synthetic | ✅ implemented |
-| Job-shop scheduling | MILP | JSPLIB (ft06, la01–la40, …), synthetic | ✅ implemented |
+| Problem | Class | Data | 
+|---|---|---|
+| Transport / optimal transport | LP | German cities (GeoNames), synthetic |
+| Capacitated facility location | MILP | OR-Library cap41–cap134, German cities, synthetic |
+| Travelling salesman | MILP + lazy cuts | TSPLIB (berlin52, …), German cities, synthetic |
+| Vehicle routing (CVRP) | MILP + lazy cuts | CVRPLIB A-n32-k5, German cities, synthetic |
+| Job-shop scheduling | MILP | JSPLIB (ft06, la01–la40, …), synthetic | 
+
+## 0. Generate the Package Structural Plot
+
+```
+uv pip install pylint
+uv run pyreverse -o png -p linear_opt src/linear_opt/
+```
+
 
 ---
 
@@ -108,8 +115,7 @@ slack = 0.10        # depot capacity = 1.1 x demand
 cost = "haversine"  # or "road": driving distances from OSRM (OpenStreetMap, ODbL)
 ```
 
-`cost = "road"` makes one request to the public OSRM demo server and caches the
-result. Please respect its usage policy. Downloads are cached in
+`cost = "road"` makes one request to the public OSRM demo server and caches the result. Please respect its usage policy. Downloads are cached in
 `$LINEAR_OPT_DATA_DIR` (default `~/.cache/linear_opt`).
 
 ## 4. Facility location
