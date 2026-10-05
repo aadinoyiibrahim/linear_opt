@@ -4,7 +4,7 @@ title: "linear_opt: production-grade LP/MILP modelling with Gurobi and HiGHS"
 type: software
 authors:
   - family-names: Ibrahim
-    given-names: Abdullahi Adinoyi
+    given-names: Abdul
     affiliation: TU Dresden
 version: 0.1.0
 date-released: 2026-10-02

@@ -16,5 +16,5 @@ vehicles = 6      # at least ceil(694 / 150) = 5 are needed
 
 [solver]
 backend = "gurobi"
-time_limit = 120.0
+time_limit = 130.0
 mip_gap = 0.0
