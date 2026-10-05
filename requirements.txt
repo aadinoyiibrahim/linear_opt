@@ -150,5 +150,5 @@ uvicorn==0.54.0
     # via streamlit
 watchdog==6.0.0 ; sys_platform != 'darwin'
     # via streamlit
-websockets==16.1.1
+websockets==17.1
     # via streamlit
