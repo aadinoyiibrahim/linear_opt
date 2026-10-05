@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.png" width="440" alt="linear_opt: linear and mixed-integer optimization tool">
+</p>
+
 # linear_opt
 
 [![CI](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml/badge.svg)](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml)
@@ -6,17 +10,17 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Linear and mixed-integer optimisation in Python.
-- **Gurobi** is the primary solver; 
-- **HiGHS** is an open-source fallback, 
+- **Gurobi** is the primary solver;
+- **HiGHS** is an open-source fallback,
 so everything also runs without a commercial licence. Models are solved on real benchmark data, checked independently of the solver, and explored through interactive Plotly reports and a Streamlit dashboard.
 
-| Problem | Class | Data | 
+| Problem | Class | Data |
 |---|---|---|
 | Transport / optimal transport | LP | German cities (GeoNames), synthetic |
 | Capacitated facility location | MILP | OR-Library cap41–cap134, German cities, synthetic |
 | Travelling salesman | MILP + lazy cuts | TSPLIB (berlin52, …), German cities, synthetic |
 | Vehicle routing (CVRP) | MILP + lazy cuts | CVRPLIB A-n32-k5, German cities, synthetic |
-| Job-shop scheduling | MILP | JSPLIB (ft06, la01–la40, …), synthetic | 
+| Job-shop scheduling | MILP | JSPLIB (ft06, la01–la40, …), synthetic |
 
 ## 0. Generate the Package Structural Plot
 
@@ -389,6 +393,33 @@ settings, marked as stale until you solve again. Presets are read from
 The page logic is in `linear_opt/app/logic.py` and is unit-tested. The page
 itself is tested headlessly with Streamlit's `AppTest`, which solves every
 problem type, compares backends and runs a formulation study (`tests/test_app.py`).
+
+### Deploy on Streamlit Community Cloud
+
+Community Cloud builds from `requirements.txt` (not Docker). That file pins
+the same versions as `uv.lock` and installs the package with both solvers, so
+the bundled benchmark snapshots are available. CI fails if it drifts from the
+lock file; after changing dependencies run:
+
+```bash
+uv lock && make requirements   # then commit uv.lock and requirements.txt
+```
+
+1. Sign in at [share.streamlit.io](https://share.streamlit.io) with GitHub. For a
+   private repository, allow Streamlit to access private repositories.
+2. **Create app** (from an existing GitHub repo): repository
+   `aadinoyiibrahim/linear_opt`, branch `main`, main file
+   `src/linear_opt/app/main.py`, and a subdomain.
+3. **Advanced settings**: Python **3.12**. No secrets are needed: Gurobi runs on
+   its bundled restricted licence and HiGHS handles larger models. Do not store
+   a WLS or academic Gurobi licence in a shared app's secrets.
+4. **Deploy**, then open *Manage app → logs* and confirm the build installed
+   from `requirements.txt`.
+5. A private repository gives a private app: invite viewers under
+   *Share* (by email).
+
+Every push to `main` redeploys. Apps without traffic go to sleep, and the next
+visitor wakes them (about a minute). The theme comes from `.streamlit/config.toml`.
 
 ## 8. Try it: Python API
 

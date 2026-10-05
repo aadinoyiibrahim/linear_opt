@@ -19,7 +19,11 @@ from linear_opt.app import logic
 from linear_opt.core.backends import available_backends
 from linear_opt.core.config import ProblemKind, RunConfig
 
-st.set_page_config(page_title="linear_opt", page_icon=":material/hub:", layout="wide")
+ASSETS = Path(__file__).parent / "assets"
+LOGO = ASSETS / "logo.png"  # transparent, trimmed copy of the repository's logo.png
+LOGO_MARK = ASSETS / "logo_mark.png"  # the triangulation only, square (browser tab)
+
+st.set_page_config(page_title="linear_opt", page_icon=str(LOGO_MARK), layout="wide")
 
 COLUMN_NAMES = {
     "lp_bound": "LP bound",
@@ -76,6 +80,7 @@ def render_specs(
 def sidebar() -> tuple[ProblemKind, RunConfig | None, bool]:
     """All settings; returns the problem, a validated config (or None) and the chart theme."""
     sb = st.sidebar
+    sb.image(str(LOGO), width="stretch")
     sb.title("linear_opt")
     sb.caption("LP / MILP with Gurobi and HiGHS on benchmark data")
     kind: ProblemKind = sb.selectbox(
