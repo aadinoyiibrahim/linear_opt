@@ -2,6 +2,7 @@
 
 Run with ``uv run linopt app`` (or ``streamlit run src/linear_opt/app/main.py``).
 All logic lives in :mod:`linear_opt.app.logic`; this file only draws widgets.
+
 """
 
 from __future__ import annotations
