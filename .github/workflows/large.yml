@@ -22,7 +22,7 @@ jobs:
       - name: Licence available?
         if: env.HAS_LICENCE != 'true'
         run: echo "::notice::No WLS secrets configured; skipping large instances."
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: env.HAS_LICENCE == 'true'
       - uses: astral-sh/setup-uv@v6
         if: env.HAS_LICENCE == 'true'
