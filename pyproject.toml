@@ -1,7 +1,7 @@
 [project]
 name = "linear-opt"
 version = "0.1.0"
-description = "LP/MILP modelling with Gurobi and a HiGHS fallback."
+description = "LP/MILP modelling with Gurobi and a HiGHS"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

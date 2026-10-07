@@ -1,15 +1,10 @@
-<p align="center">
-  <img src="logo.png" width="440" alt="linear_opt: linear and mixed-integer optimization tool">
-</p>
-
-# linear_opt
+# LiMilpOptKit: Linear and mixed-integer optimization Toolkit in Python
 
 [![CI](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml/badge.svg)](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml)
 [![Docs](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/docs.yml/badge.svg)](https://aadinoyiibrahim.github.io/linear_opt/)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Linear and mixed-integer optimisation in Python.
 - **Gurobi** is the primary solver;
 - **HiGHS** is an open-source fallback,
 so everything also runs without a commercial licence. Models are solved on real benchmark data, checked independently of the solver, and explored through interactive Plotly reports and a Streamlit dashboard.
