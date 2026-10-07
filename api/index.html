@@ -1,0 +1,5550 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LP/MILP modelling with Gurobi and HiGHS on real benchmark data">
+      
+      
+      
+      
+        <link rel="prev" href="../deployment/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>API reference - linear_opt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="linear_opt" class="md-header__button md-logo" aria-label="linear_opt" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            linear_opt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aadinoyiibrahim/linear_opt" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="linear_opt" class="md-nav__button md-logo" aria-label="linear_opt" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    linear_opt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aadinoyiibrahim/linear_opt" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport (LP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-facility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility location (MILP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routing (TSP, CVRP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-scheduling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Job-shop scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intermediate-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intermediate representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConstrBlock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ConstrBlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock.slice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        slice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock.values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LinearModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LinearModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.integer_mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        integer_mask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.is_mip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_mip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_constrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_constrs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_nonzeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_nonzeros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.constr_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constr_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.relaxed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        relaxed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.var_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        var_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.with_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ModelBuilder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ModelBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.add_constrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_constrs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.add_vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.set_objective_constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_objective_constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ObjSense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ObjSense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.Sense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VarBlock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VarBlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.slice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        slice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VarType
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.sum_over" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sum_over
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models-and-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models and results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OptimizationModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OptimizationModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.with_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Result">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.ok" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ok
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.reference_gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.Cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cut
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cut">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.Cut.violation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        violation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressPoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressPoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressRecorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressRecorder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ProgressRecorder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressRecorder.record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RawSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RawSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution.gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution.has_solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        has_solution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.SolveStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SolveStatus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        duality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.dual_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dual_objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.dual_sign_violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dual_sign_violations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.duality_gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        duality_gap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solver-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solver backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.Capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.LicenseLimitError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LicenseLimitError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SolverBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SolverBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.compute_iis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_iis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.supports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        supports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.create_backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.solve_by_row_generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve_by_row_generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gurobi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GurobiBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GurobiBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend.compute_iis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_iis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        highs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.HighsBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HighsBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HighsBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.HighsBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.to_highs_lp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_highs_lp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.BackendUnavailableError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BackendUnavailableError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.available_backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        available_backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.is_available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_available
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.resolve_backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolve_backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intermediate-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intermediate representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ConstrBlock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ConstrBlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock.slice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        slice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ConstrBlock.values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LinearModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LinearModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.integer_mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        integer_mask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.is_mip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_mip
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_constrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_constrs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_nonzeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_nonzeros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.num_vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        num_vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.constr_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        constr_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.relaxed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        relaxed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.var_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        var_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.LinearModel.with_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ModelBuilder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ModelBuilder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.add_constrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_constrs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.add_vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        add_vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ModelBuilder.set_objective_constant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        set_objective_constant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.ObjSense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ObjSense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.Sense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VarBlock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VarBlock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.slice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        slice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarBlock.values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        values
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.VarType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VarType
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.ir.sum_over" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sum_over
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models-and-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models and results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OptimizationModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OptimizationModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        build
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.OptimizationModel.with_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        with_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Result">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.ok" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ok
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.reference_gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.model.Result.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        result
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.Cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cut
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cut">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.Cut.violation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        violation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressPoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressPoint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressRecorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ProgressRecorder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ProgressRecorder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.ProgressRecorder.record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        record
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RawSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RawSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution.gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.result.RawSolution.has_solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        has_solution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.result.SolveStatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SolveStatus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        duality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.dual_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dual_objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.dual_sign_violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dual_sign_violations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.duality.duality_gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        duality_gap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solver-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solver backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        base
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.Capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.LicenseLimitError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LicenseLimitError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SolverBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SolverBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.compute_iis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_iis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.supports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        supports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.SolverBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.create_backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.base.solve_by_row_generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        solve_by_row_generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gurobi
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GurobiBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GurobiBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend.compute_iis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        compute_iis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.gurobi.GurobiBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        highs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.HighsBackend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HighsBackend
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HighsBackend">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.HighsBackend.write_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.solvers.highs.to_highs_lp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_highs_lp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.BackendUnavailableError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BackendUnavailableError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.available_backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        available_backends
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.is_available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        is_available
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.backends.resolve_backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resolve_backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API reference</h1>
+<h2 id="intermediate-representation">Intermediate representation</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.ir"></a>
+    <div class="doc doc-contents first">
+
+        <p>Solver-neutral intermediate representation (IR) of a linear / mixed-integer model.</p>
+<p>Every model in this package is compiled to the canonical form</p>
+<p>.. math::</p>
+<pre><code>\min_x / \max_x \; c^\top x + c_0
+\quad\text{s.t.}\quad A x \;\{\le, =, \ge\}\; b,
+\quad \ell \le x \le u,
+\quad x_j \in \mathbb{Z} \;\; (j \in \mathcal{I}).
+</code></pre>
+<p>Problems never talk to a solver directly. They declare <em>blocks</em> of variables
+and constraints through :class:<code>ModelBuilder</code>; each backend (Gurobi, HiGHS)
+translates the resulting :class:<code>LinearModel</code> with its native matrix API. Blocks
+keep the algebra readable: a transport model has one <code>flow</code> block of shape
+<code>(m, n)</code> and constraint blocks <code>supply</code> and <code>demand</code>, and solution values or
+duals are read back by block rather than by raw index.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.ConstrBlock" class="doc doc-heading">
+            <code>ConstrBlock</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A named, contiguous block of constraints sharing one sense.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.ConstrBlock.slice" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">slice</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Position of the block in the global constraint vector.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.ConstrBlock.values" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">values</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Extract this block's entries (e.g. duals) from a global vector.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.LinearModel" class="doc doc-heading">
+            <code>LinearModel</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Immutable, validated model in canonical matrix form. Build via :class:<code>ModelBuilder</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.LinearModel.integer_mask" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">integer_mask</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Boolean mask of integer or binary columns.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.LinearModel.is_mip" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_mip</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Whether any variable is integer or binary.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.LinearModel.num_constrs" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">num_constrs</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of rows.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.LinearModel.num_nonzeros" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">num_nonzeros</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Non-zeros in the constraint matrix.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.LinearModel.num_vars" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">num_vars</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of columns.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.LinearModel.constr_names" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">constr_names</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Readable row names such as <code>demand[12]</code> (cached).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.LinearModel.relaxed" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">relaxed</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Continuous (LP) relaxation: same model with every integrality dropped.</p>
+<p>Binary bounds are already <code>[0, 1]</code>, so only the variable types change.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.LinearModel.stats" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">stats</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Size statistics, e.g. to check against the restricted Gurobi licence.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.LinearModel.var_names" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">var_names</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Readable column names such as <code>flow[3,7]</code> (cached).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.LinearModel.with_cuts" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">with_cuts</span><span class="p">(</span><span class="n">cuts</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'cuts'</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A copy with extra rows appended as one constraint block <code>name</code>.</p>
+<p><code>cuts</code> are :class:<code>~linear_opt.core.result.Cut</code> objects (<code>cols</code>,
+<code>coefs</code>, <code>sense</code>, <code>rhs</code>). Used for row generation.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.ModelBuilder" class="doc doc-heading">
+            <code>ModelBuilder</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Incrementally declare variable and constraint blocks, then :meth:<code>build</code>.</p>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>b = ModelBuilder("toy", ObjSense.MAXIMIZE)
+x = b.add_vars("x", 2, obj=[3.0, 5.0])
+_ = b.add_constrs("cap", [(x, [[1, 0], [0, 2], [3, 2]])], Sense.LE, [4, 12, 18])
+b.build().num_constrs
+3</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.ModelBuilder.add_constrs" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add_constrs</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">sense</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Add the block of constraints :math:<code>\sum_k M_k x_{B_k} \;\text{sense}\; b</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Unique block name.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>terms</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Sequence">Sequence</span>[<span title="tuple">tuple</span>[<a class="autorefs autorefs-internal" title="VarBlock
+
+
+  
+      dataclass
+   (linear_opt.core.ir.VarBlock)" href="#linear_opt.core.ir.VarBlock">VarBlock</a>, <span title="linear_opt.core.ir.MatrixLike">MatrixLike</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Pairs <code>(block, M)</code> where <code>M</code> has shape <code>(rows, block.size)</code>
+and acts on the block's variables in row-major (C) order.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sense</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="Sense (linear_opt.core.ir.Sense)" href="#linear_opt.core.ir.Sense">Sense</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Common sense of all rows.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rhs</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.ArrayLike">ArrayLike</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Right-hand side, scalar or of length <code>rows</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="ConstrBlock
+
+
+  
+      dataclass
+   (linear_opt.core.ir.ConstrBlock)" href="#linear_opt.core.ir.ConstrBlock">ConstrBlock</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The constraint block handle (used to read duals).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.ModelBuilder.add_vars" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">add_vars</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">VarType</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Add a block of variables.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Unique block name.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>shape</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | <span title="tuple">tuple</span>[<span title="int">int</span>, ...]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Block shape, e.g. <code>(m, n)</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>lb</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.ArrayLike">ArrayLike</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Lower bounds (scalar or broadcastable to <code>shape</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.0</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ub</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.ArrayLike">ArrayLike</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Upper bounds (scalar or broadcastable to <code>shape</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="numpy.inf">inf</span></code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>vtype</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="VarType (linear_opt.core.ir.VarType)" href="#linear_opt.core.ir.VarType">VarType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Domain of every variable in the block.</p>
+              </div>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.VarType.CONTINUOUS">CONTINUOUS</span></code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>obj</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.ArrayLike">ArrayLike</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Objective coefficients (scalar or broadcastable to <code>shape</code>).</p>
+              </div>
+            </td>
+            <td>
+                  <code>0.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="VarBlock
+
+
+  
+      dataclass
+   (linear_opt.core.ir.VarBlock)" href="#linear_opt.core.ir.VarBlock">VarBlock</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The block handle, used in constraints and to read solutions.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.ModelBuilder.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Assemble and freeze the model.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.ModelBuilder.set_objective_constant" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">set_objective_constant</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Set the constant :math:<code>c_0</code> in the objective.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.ObjSense" class="doc doc-heading">
+            <code>ObjSense</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.StrEnum">StrEnum</span></code></p>
+
+
+
+        <p>Direction of optimisation.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.Sense" class="doc doc-heading">
+            <code>Sense</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.StrEnum">StrEnum</span></code></p>
+
+
+
+        <p>Constraint sense. Values match Gurobi's sense characters.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.VarBlock" class="doc doc-heading">
+            <code>VarBlock</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A named, contiguous, possibly multi-dimensional block of variables.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.VarBlock.size" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">size</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of scalar variables in the block.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.ir.VarBlock.slice" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">slice</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Position of the block in the global variable vector.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.VarBlock.index" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">index</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Global column indices, shaped like the block.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.ir.VarBlock.values" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">values</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Extract this block's values from a global vector, reshaped to <code>shape</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.ir.VarType" class="doc doc-heading">
+            <code>VarType</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.StrEnum">StrEnum</span></code></p>
+
+
+
+        <p>Variable domain. Values match Gurobi's <code>vtype</code> characters.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.ir.sum_over" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sum_over</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Matrix that sums a row-major <code>(m, n)</code> block along <code>axis</code>.</p>
+<p><code>axis=1</code> gives :math:<code>I_m \otimes \mathbf{1}_n^\top</code> (one row per <code>i</code>,
+summing over <code>j</code>); <code>axis=0</code> gives :math:<code>\mathbf{1}_m^\top \otimes I_n</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="models-and-results">Models and results</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.model"></a>
+    <div class="doc doc-contents first">
+
+        <p>Base class for every optimisation model: build -&gt; solve -&gt; extract -&gt; validate.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.model.OptimizationModel" class="doc doc-heading">
+            <code>OptimizationModel</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code>, <code><span title="typing.Generic">Generic</span>[<span title="linear_opt.core.model.D">D</span>, <span title="linear_opt.core.model.S">S</span>, <span title="linear_opt.core.model.O">O</span>]</code></p>
+
+
+
+        <p>Template for a problem class.</p>
+<p>Subclasses implement three things:</p>
+<ul>
+<li>:meth:<code>_build</code> - declare variables/constraints on a :class:<code>ModelBuilder</code>;</li>
+<li>:meth:<code>_extract</code> - turn the raw vector into a typed, domain-level solution;</li>
+<li>:meth:<code>validate</code> - re-check feasibility <em>from the instance data</em>, so a
+  modelling bug cannot hide behind a solver reporting "optimal".</li>
+</ul>
+<p>Optional hooks: :meth:<code>lazy_constraints</code> and :meth:<code>warm_start</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.build" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">build</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compile (once) to the solver-neutral IR.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.lazy_constraints" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">lazy_constraints</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Separation oracle for lazy constraints, if the model uses them.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.reference_objective" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reference_objective</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Known optimal objective of this instance, if published.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.solve" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Build, solve, extract and validate.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>settings</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="SolverSettings (linear_opt.core.config.SolverSettings)" href="../configuration/#linear_opt.core.config.SolverSettings">SolverSettings</a> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Solver settings (defaults if omitted).</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>backend</code>
+            </td>
+            <td>
+                  <code><span title="typing.Any">Any</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A :class:<code>~linear_opt.solvers.SolverBackend</code> instance, a
+:class:<code>BackendName</code>, or <code>None</code> to use <code>settings.backend</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.user_cuts" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">user_cuts</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Separator for fractional points (cutting planes), if the model has one.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.validate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">validate</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return human-readable constraint violations (empty if feasible).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.variants" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">variants</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Named option sets worth comparing (e.g. alternative formulations).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.warm_start" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">warm_start</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Heuristic starting point for MIPs.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.OptimizationModel.with_options" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">with_options</span><span class="p">(</span><span class="o">**</span><span class="n">overrides</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A fresh model on the same data with some options changed.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.model.Result" class="doc doc-heading">
+            <code>Result</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.Generic">Generic</span>[<span title="linear_opt.core.model.S">S</span>]</code></p>
+
+
+
+        <p>Outcome of :meth:<code>OptimizationModel.solve</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.model.Result.ok" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ok</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A solution exists and passed independent validation.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.model.Result.reference_gap" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reference_gap</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Relative deviation of the objective from the known optimum.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.model.Result.summary" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">summary</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>JSON-serialisable overview of the run.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.result"></a>
+    <div class="doc doc-contents first">
+
+        <p>Solver-independent solve results and lazy-constraint types.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.result.Cut" class="doc doc-heading">
+            <code>Cut</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A single linear constraint <code>sum(coefs * x[cols]) sense rhs</code> added during the solve.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.result.Cut.violation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">violation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Amount by which <code>x</code> violates the cut (<code>&lt;= 0</code> means satisfied).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.result.ProgressPoint" class="doc doc-heading">
+            <code>ProgressPoint</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Incumbent and best bound at a moment of a MIP solve.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.result.ProgressRecorder" class="doc doc-heading">
+            <code>ProgressRecorder</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Collect incumbent/bound changes from a solver callback (deduplicated).</p>
+<p>Values whose magnitude is at least <code>infinity</code> (e.g. <code>GRB.INFINITY</code> or
+<code>inf</code>) are stored as <code>None</code> - "no incumbent yet" / "no bound yet".</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.result.ProgressRecorder.record" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">record</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">incumbent</span><span class="p">,</span> <span class="n">bound</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Append a point if incumbent or bound changed.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.result.RawSolution" class="doc doc-heading">
+            <code>RawSolution</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>What a backend returns: status, primal/dual vectors and statistics.</p>
+<p>Dual sign convention (shared by Gurobi and HiGHS, checked in the tests):
+for a minimisation, duals of <code>&gt;=</code> rows are non-negative and of <code>&lt;=</code> rows
+non-positive; signs flip for maximisation. Reduced costs are
+<code>c - A^T y</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.result.RawSolution.gap" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">gap</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Relative optimality gap <code>|obj - bound| / max(|obj|, 1e-10)</code>.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.result.RawSolution.has_solution" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">has_solution</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Whether a feasible primal solution is available.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.result.SolveStatus" class="doc doc-heading">
+            <code>SolveStatus</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.StrEnum">StrEnum</span></code></p>
+
+
+
+        <p>Termination status, harmonised across backends.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.duality"></a>
+    <div class="doc doc-contents first">
+
+        <p>LP duality checks: an independent certificate of optimality.</p>
+<p>For a primal-dual pair :math:<code>(x^*, y^*)</code> with reduced costs
+:math:<code>z = c - A^\top y</code>, the Lagrangian dual objective is</p>
+<p>.. math::</p>
+<pre><code>g(y) = c_0 + b^\top y + \sum_j z_j \cdot
+    \begin{cases} \ell_j &amp; z_j &gt; 0 \\ u_j &amp; z_j &lt; 0 \end{cases}
+\qquad (\text{minimisation; bounds swap for maximisation}).
+</code></pre>
+<p>Strong duality says :math:<code>g(y^*) = c^\top x^* + c_0</code>. Checking it, plus the
+sign conditions on :math:<code>y</code>, verifies a solver's answer without trusting it.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.duality.dual_objective" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">dual_objective</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-09</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Lagrangian dual objective <code>g(y)</code>; <code>-inf</code>/<code>+inf</code> if <code>y</code> is dual infeasible.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.duality.dual_sign_violations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">dual_sign_violations</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-07</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Rows whose dual has the wrong sign for the row sense.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.duality.duality_gap" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">duality_gap</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">primal_objective</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Relative gap between primal objective and dual objective.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="solver-backends">Solver backends</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.solvers.base"></a>
+    <div class="doc doc-contents first">
+
+        <p>Backend interface, factory and generic row generation.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.solvers.base.Capability" class="doc doc-heading">
+            <code>Capability</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="enum.StrEnum">StrEnum</span></code></p>
+
+
+
+        <p>Optional features a backend may support.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.solvers.base.LicenseLimitError" class="doc doc-heading">
+            <code>LicenseLimitError</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="RuntimeError">RuntimeError</span></code></p>
+
+
+
+        <p>The model exceeds the size limit of the installed solver licence.</p>
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.solvers.base.SolverBackend" class="doc doc-heading">
+            <code>SolverBackend</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+
+
+
+        <p>Translate a :class:<code>LinearModel</code>, solve it, and harmonise the result.</p>
+<p>Every backend accepts a lazy-constraint oracle. Backends with
+:attr:<code>Capability.LAZY_IN_TREE</code> call it inside branch-and-bound; the
+others fall back to <em>row generation</em> (solve, separate, add cuts, re-solve),
+which is slower but returns the same optimum.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.base.SolverBackend.compute_iis" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_iis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Names of constraints/bounds in an irreducible infeasible subsystem.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.base.SolverBackend.solve" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lazy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warm_start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_cuts</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Solve <code>model</code>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="LinearModel
+
+
+  
+      dataclass
+   (linear_opt.core.ir.LinearModel)" href="#linear_opt.core.ir.LinearModel">LinearModel</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The model in canonical form.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>settings</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="SolverSettings (linear_opt.core.config.SolverSettings)" href="../configuration/#linear_opt.core.config.SolverSettings">SolverSettings</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Time limit, gap, threads, verbosity, export path.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>lazy</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.result.LazyOracle">LazyOracle</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional separation oracle for lazy constraints. For LPs it is
+applied by row generation, so <code>model.relaxed()</code> plus the oracle
+gives the LP bound of the <em>full</em> formulation.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>warm_start</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.ir.FloatArray">FloatArray</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional starting point (<code>NaN</code> entries are left free).</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>user_cuts</code>
+            </td>
+            <td>
+                  <code><span title="linear_opt.core.result.LazyOracle">LazyOracle</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional separator for fractional points (backends
+without :attr:<code>Capability.USER_CUTS</code> ignore it).</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="LicenseLimitError (linear_opt.solvers.base.LicenseLimitError)" href="#linear_opt.solvers.base.LicenseLimitError">LicenseLimitError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If the licence does not permit a model this large.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.base.SolverBackend.supports" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">supports</span><span class="p">(</span><span class="n">capability</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Whether this backend provides <code>capability</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.base.SolverBackend.version" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">version</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Version string of the underlying solver.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.base.SolverBackend.write_model" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">write_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Write <code>model</code> without solving (format from the suffix, e.g. <code>.lp</code>, <code>.mps</code>).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.solvers.base.create_backend" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_backend</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">BackendName</span><span class="o">.</span><span class="n">AUTO</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Instantiate a backend; <code>auto</code> picks Gurobi if installed, else HiGHS.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.solvers.base.solve_by_row_generation" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_by_row_generation</span><span class="p">(</span><span class="n">solve</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">oracle</span><span class="p">,</span> <span class="n">max_rounds</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Solve, separate, add violated cuts, re-solve - until none is violated.</p>
+<p>Works for LPs and MIPs on any backend. Returned duals cover the original
+rows only.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.solvers.gurobi"></a>
+    <div class="doc doc-contents first">
+
+        <p>Gurobi backend built on the gurobipy matrix API.</p>
+<p>Showcases:</p>
+<ul>
+<li><code>addMVar</code> / <code>addMConstr</code> - one call per block, no Python loops over variables;</li>
+<li>a callback that (a) adds <strong>lazy constraints</strong> at integer-feasible nodes via
+  <code>cbLazy</code> and (b) records the <strong>incumbent / bound trajectory</strong>;</li>
+<li><strong>MIP starts</strong> through <code>MVar.Start</code>;</li>
+<li><strong>IIS</strong> computation for infeasible models;</li>
+<li>a clean mapping of the size-restricted pip licence error to
+  :class:<code>LicenseLimitError</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.solvers.gurobi.GurobiBackend" class="doc doc-heading">
+            <code>GurobiBackend</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="SolverBackend (linear_opt.solvers.base.SolverBackend)" href="#linear_opt.solvers.base.SolverBackend">SolverBackend</a></code></p>
+
+
+
+        <p>Gurobi via gurobipy (works with the bundled restricted licence).</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.gurobi.GurobiBackend.compute_iis" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_iis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return names of constraints and bounds forming an IIS (empty if feasible).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.gurobi.GurobiBackend.write_model" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">write_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Write the model with Gurobi's writer (<code>.lp</code>, <code>.mps</code>, ...).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.solvers.highs"></a>
+    <div class="doc doc-contents first">
+
+        <p>HiGHS backend (open source, MIT licence) via <code>highspy</code>.</p>
+<p>The model is passed in one shot as a column-wise <code>HighsLp</code>. Lazy constraints
+are handled by <strong>row generation</strong>: solve, ask the oracle for violated cuts,
+append them with <code>addRow</code> and re-solve until no cut is violated. This gives
+the same optimum as in-tree lazy constraints, at the price of re-solving.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.solvers.highs.HighsBackend" class="doc doc-heading">
+            <code>HighsBackend</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="SolverBackend (linear_opt.solvers.base.SolverBackend)" href="#linear_opt.solvers.base.SolverBackend">SolverBackend</a></code></p>
+
+
+
+        <p>HiGHS: simplex / IPM for LPs, branch-and-cut for MIPs.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.solvers.highs.HighsBackend.write_model" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">write_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Write the model with HiGHS's writer (<code>.lp</code>, <code>.mps</code>).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.solvers.highs.to_highs_lp" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_highs_lp</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Translate the IR to a <code>HighsLp</code> (column-wise sparse matrix).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.backends"></a>
+    <div class="doc doc-contents first">
+
+        <p>Discovery of installed solver backends.</p>
+<p>The concrete <code>SolverBackend</code> protocol and its Gurobi/HiGHS implementations
+arrive in Phase 1; this module only answers "what can I run here?".</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.backends.BackendUnavailableError" class="doc doc-heading">
+            <code>BackendUnavailableError</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="RuntimeError">RuntimeError</span></code></p>
+
+
+
+        <p>Raised when the requested solver backend is not installed.</p>
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.backends.available_backends" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">available_backends</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Map each installed backend to its package version.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.backends.is_available" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_available</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return whether the Python package for <code>backend</code> is importable.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.backends.resolve_backend" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">resolve_backend</span><span class="p">(</span><span class="n">requested</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Turn a requested backend (possibly <code>auto</code>) into a concrete installed one.</p>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="BackendUnavailableError (linear_opt.core.backends.BackendUnavailableError)" href="#linear_opt.core.backends.BackendUnavailableError">BackendUnavailableError</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If nothing suitable is installed.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

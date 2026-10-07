@@ -1,0 +1,3781 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LP/MILP modelling with Gurobi and HiGHS on real benchmark data">
+      
+      
+      
+      
+        <link rel="prev" href="../problems-facility/">
+      
+      
+        <link rel="next" href="../problems-scheduling/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Routing (TSP, CVRP) - linear_opt</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#routing-tsp-and-cvrp" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="linear_opt" class="md-header__button md-logo" aria-label="linear_opt" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            linear_opt
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Routing (TSP, CVRP)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/aadinoyiibrahim/linear_opt" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="linear_opt" class="md-nav__button md-logo" aria-label="linear_opt" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    linear_opt
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/aadinoyiibrahim/linear_opt" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Problems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport (LP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-facility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Facility location (MILP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routing (TSP, CVRP)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routing (TSP, CVRP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#travelling-salesman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travelling salesman
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capacitated-vehicle-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacitated vehicle routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heuristics-as-mip-starts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heuristics as MIP starts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tsp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.SubtourFrame" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SubtourFrame
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPInstance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPInstance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.from_cities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_cities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.from_tsplib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_tsplib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.random" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.heuristic_tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristic_tour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.separate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        separate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPOptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPSolution.edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.tour_from_edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tour_from_edges
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.tour_from_successors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tour_from_successors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvrp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPInstance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPInstance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.min_vehicles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_vehicles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.from_cities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_cities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.from_tsplib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_tsplib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.random" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.route_cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        route_cost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.heuristic_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristic_routes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.separate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        separate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPOptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPSolution.total_cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        total_cost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.clarke_wright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clarke_wright
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.nearest_neighbour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nearest_neighbour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.two_opt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        two_opt
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EdgeIndex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EdgeIndex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        m
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.incidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        incidence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.inside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inside
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.to_matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.weights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.global_min_cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        global_min_cut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mask
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.min_cut_phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_cut_phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../problems-scheduling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Job-shop scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#travelling-salesman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Travelling salesman
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capacitated-vehicle-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacitated vehicle routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heuristics-as-mip-starts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heuristics as MIP starts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tsp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.SubtourFrame" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SubtourFrame
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPInstance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPInstance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.from_cities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_cities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.from_tsplib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_tsplib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPInstance.random" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.heuristic_tour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristic_tour
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.separate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        separate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPOptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TSPSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSPSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.TSPSolution.edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.tour_from_edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tour_from_edges
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.tsp.tour_from_successors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tour_from_successors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cvrp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPInstance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPInstance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.min_vehicles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_vehicles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        n
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.from_cities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_cities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.from_tsplib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_tsplib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.random" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        random
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPInstance.route_cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        route_cost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPModel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPModel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.heuristic_routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristic_routes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.lazy_constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        lazy_constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.reference_objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reference_objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.separate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        separate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.user_cuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        user_cuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPModel.warm_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        warm_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPOptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPOptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPSolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CVRPSolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CVRPSolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.problems.cvrp.CVRPSolution.total_cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        total_cost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        heuristics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.clarke_wright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clarke_wright
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.nearest_neighbour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nearest_neighbour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.problems.heuristics.two_opt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        two_opt
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EdgeIndex
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EdgeIndex">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        m
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delta
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.incidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        incidence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.inside" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        inside
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.to_matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.EdgeIndex.weights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.global_min_cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        global_min_cut
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.mask" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mask
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear_opt.core.graph.min_cut_phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        min_cut_phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="routing-tsp-and-cvrp">Routing: TSP and CVRP</h1>
+<h2 id="travelling-salesman">Travelling salesman</h2>
+<table>
+<thead>
+<tr>
+<th>formulation</th>
+<th>size</th>
+<th>LP bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DFJ + lazy subtour cuts</td>
+<td><span class="arithmatex">\(n(n-1)/2\)</span> binaries, <span class="arithmatex">\(n\)</span> rows + cuts</td>
+<td>Held–Karp (strongest)</td>
+</tr>
+<tr>
+<td>single-commodity flow</td>
+<td><span class="arithmatex">\(2n^2\)</span> variables, <span class="arithmatex">\(O(n^2)\)</span> rows</td>
+<td>intermediate</td>
+</tr>
+<tr>
+<td>MTZ</td>
+<td><span class="arithmatex">\(n^2 + n\)</span> variables, <span class="arithmatex">\(O(n^2)\)</span> rows</td>
+<td>weakest</td>
+</tr>
+</tbody>
+</table>
+<p>Padberg &amp; Sung (1991) show <span class="arithmatex">\(z_{LP}^{MTZ} \le z_{LP}^{SCF} \le z_{LP}^{DFJ}\)</span>; the
+test suite checks this ordering on random instances, using the same separation
+routine to compute the DFJ bound by row generation.</p>
+<p><strong>Separation.</strong> For an integer point, the connected components of the support
+graph are the subtours; each yields <span class="arithmatex">\(x(\delta(S)) \ge 2\)</span>. For a fractional point
+that is connected, the global minimum cut (Stoer–Wagner) is the most violated
+subtour cut; every phase cut below 2 is added.</p>
+<h2 id="capacitated-vehicle-routing">Capacitated vehicle routing</h2>
+<p>Two-index formulation with rounded capacity inequalities
+<span class="arithmatex">\(x(\delta(S)) \ge 2\lceil d(S)/Q \rceil\)</span>. Exact separation is NP-hard; on integer
+points, however, the customer components after removing the depot are exactly
+the routes and subtours, so checking them is exact. Fractional points use the
+component heuristic at several support thresholds.</p>
+<h2 id="heuristics-as-mip-starts">Heuristics as MIP starts</h2>
+<p>Nearest neighbour + 2-opt (TSP) and Clarke–Wright savings (CVRP) provide
+incumbents before the first node; tests check that each start is feasible for
+every formulation's constraint matrix.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.problems.tsp"></a>
+    <div class="doc doc-contents first">
+
+        <p>Symmetric travelling salesman problem (MILP) in three formulations.</p>
+<ul>
+<li><strong>DFJ</strong> (Dantzig-Fulkerson-Johnson, 1954): one binary per edge, degree 2 at
+  every node, and the exponentially many subtour-elimination constraints
+  :math:<code>x(\delta(S)) \ge 2</code> added <em>lazily</em> when a candidate solution violates
+  one. Separation is exact: connected components for integer points, a
+  Stoer-Wagner minimum cut for fractional points. Its LP relaxation is the
+  Held-Karp bound, typically within ~1 % of the optimum.</li>
+<li><strong>MTZ</strong> (Miller-Tucker-Zemlin, 1960): arcs plus order variables
+  :math:<code>u_i - u_j + (n-1) x_{ij} \le n-2</code>. Polynomial size, very weak LP.</li>
+<li><strong>SCF</strong> (single-commodity flow, Gavish-Graves 1978): the depot ships
+  :math:<code>n-1</code> units, every other city consumes one; flow only on used arcs.
+  Polynomial size, LP between MTZ and DFJ.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.tsp.SubtourFrame" class="doc doc-heading">
+            <code>SubtourFrame</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>One integer candidate seen by the separator: its edges and subtours.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.tsp.TSPInstance" class="doc doc-heading">
+            <code>TSPInstance</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Immutable symmetric TSP instance.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.problems.tsp.TSPInstance.n" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">n</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of cities.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPInstance.from_cities" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_cities</span><span class="p">(</span><span class="n">cities</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Round trip through German cities; distances in whole km (great circle).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPInstance.from_tsplib" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_tsplib</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tour</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Wrap a parsed TSPLIB problem (coordinates are planar or display-only).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPInstance.random" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Uniform points in a 1000 x 1000 square, rounded Euclidean distances.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.tsp.TSPModel" class="doc doc-heading">
+            <code>TSPModel</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="OptimizationModel (linear_opt.core.model.OptimizationModel)" href="../api/#linear_opt.core.model.OptimizationModel">OptimizationModel</a>[<a class="autorefs autorefs-internal" title="TSPInstance
+
+
+  
+      dataclass
+   (linear_opt.problems.tsp.TSPInstance)" href="#linear_opt.problems.tsp.TSPInstance">TSPInstance</a>, <a class="autorefs autorefs-internal" title="TSPSolution
+
+
+  
+      dataclass
+   (linear_opt.problems.tsp.TSPSolution)" href="#linear_opt.problems.tsp.TSPSolution">TSPSolution</a>, <a class="autorefs autorefs-internal" title="TSPOptions (linear_opt.problems.tsp.TSPOptions)" href="#linear_opt.problems.tsp.TSPOptions">TSPOptions</a>]</code></p>
+
+
+
+        <p>TSP on a :class:<code>TSPInstance</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.heuristic_tour" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">heuristic_tour</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Nearest neighbour followed by 2-opt.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.lazy_constraints" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">lazy_constraints</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Subtour elimination for DFJ (exact on integer and fractional points).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.reference_objective" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reference_objective</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Published optimum (TSPLIB), if known.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.separate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">separate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Violated subtour cuts <code>x(delta(S)) &gt;= 2</code> for an edge vector <code>x</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.user_cuts" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">user_cuts</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fractional subtour cuts at the root node (DFJ only).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.validate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">validate</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Tour visits every city exactly once and its length matches the objective.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.variants" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">variants</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Formulations compared by <code>linopt variants</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPModel.warm_start" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">warm_start</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>MIP start from :meth:<code>heuristic_tour</code> in the active formulation's variables.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.tsp.TSPOptions" class="doc doc-heading">
+            <code>TSPOptions</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>Options in the <code>[model]</code> table of a TSP config.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.tsp.TSPSolution" class="doc doc-heading">
+            <code>TSPSolution</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Optimal tour, its length and the lazy-constraint history.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.tsp.TSPSolution.edges" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">edges</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Undirected tour edges <code>(a, b)</code> with <code>a &lt; b</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.problems.tsp.tour_from_edges" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">tour_from_edges</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Hamiltonian cycle from its undirected edge list.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.problems.tsp.tour_from_successors" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">tour_from_successors</span><span class="p">(</span><span class="n">succ</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Follow successor pointers from <code>start</code> until the cycle closes.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.problems.cvrp"></a>
+    <div class="doc doc-contents first">
+
+        <p>Capacitated vehicle routing problem (MILP).</p>
+<p>Customers :math:<code>1..n-1</code> with demands :math:<code>d_i</code> are served from depot
+:math:<code>0</code> by at most :math:<code>K</code> vehicles of capacity :math:<code>Q</code>.</p>
+<ul>
+<li><strong>Two-index</strong> (Laporte-Nobert): integer :math:<code>x_e</code> per edge, :math:<code>x_{0j}
+  \in \{0,1,2\}</code> (2 = out-and-back route), degree 2 at customers, and the
+  <em>rounded capacity inequalities</em>
+  :math:<code>x(\delta(S)) \ge 2 \lceil d(S) / Q \rceil</code> added lazily. On integer
+  points, the customer sets of the connected components (after removing the
+  depot) are exactly the routes and subtours, so this separation is exact; on
+  fractional points it is a standard heuristic.</li>
+<li><strong>MTZ load</strong>: directed arcs and load variables
+  :math:<code>u_i - u_j + Q x_{ij} \le Q - d_j</code> - compact but weak.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.cvrp.CVRPInstance" class="doc doc-heading">
+            <code>CVRPInstance</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Immutable CVRP instance; node 0 is the depot.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.min_vehicles" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">min_vehicles</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Lower bound <code>ceil(total demand / Q)</code> on the number of routes.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.n" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">n</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Nodes including the depot.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.from_cities" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_cities</span><span class="p">(</span><span class="n">cities</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">depot</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">vehicles</span><span class="p">,</span> <span class="n">people_per_unit</span><span class="o">=</span><span class="mf">25000.0</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Deliveries from one city to the others; demand = population / <code>people_per_unit</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.from_tsplib" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_tsplib</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">routes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Wrap a CVRPLIB problem; nodes are permuted so the depot comes first.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.random" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">random</span><span class="p">(</span><span class="n">n_customers</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">spare_vehicles</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Depot at the centre of a 100 x 100 square; integer demands 1..30.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPInstance.route_cost" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">route_cost</span><span class="p">(</span><span class="n">route</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Cost of depot -&gt; route -&gt; depot.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.cvrp.CVRPModel" class="doc doc-heading">
+            <code>CVRPModel</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="OptimizationModel (linear_opt.core.model.OptimizationModel)" href="../api/#linear_opt.core.model.OptimizationModel">OptimizationModel</a>[<a class="autorefs autorefs-internal" title="CVRPInstance
+
+
+  
+      dataclass
+   (linear_opt.problems.cvrp.CVRPInstance)" href="#linear_opt.problems.cvrp.CVRPInstance">CVRPInstance</a>, <a class="autorefs autorefs-internal" title="CVRPSolution
+
+
+  
+      dataclass
+   (linear_opt.problems.cvrp.CVRPSolution)" href="#linear_opt.problems.cvrp.CVRPSolution">CVRPSolution</a>, <a class="autorefs autorefs-internal" title="CVRPOptions (linear_opt.problems.cvrp.CVRPOptions)" href="#linear_opt.problems.cvrp.CVRPOptions">CVRPOptions</a>]</code></p>
+
+
+
+        <p>CVRP on a :class:<code>CVRPInstance</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.heuristic_routes" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">heuristic_routes</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Clarke-Wright savings routes.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.lazy_constraints" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">lazy_constraints</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Rounded capacity inequalities for the two-index formulation.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.reference_objective" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reference_objective</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Published optimum (CVRPLIB <code>.sol</code>), if known.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.separate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">separate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Violated rounded capacity inequalities on customer components.</p>
+<p>Exact for integer points. For fractional points the components of the
+customer graph are taken at several support thresholds - a cheap,
+standard heuristic (exact RCI separation is NP-hard).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.user_cuts" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">user_cuts</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Same separator on fractional root points (Gurobi).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.validate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">validate</span><span class="p">(</span><span class="n">solution</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Every customer once, capacities, fleet size and cost - from raw data.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.variants" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">variants</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Formulations compared by <code>linopt variants</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPModel.warm_start" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">warm_start</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>MIP start from :meth:<code>heuristic_routes</code> if it respects the fleet size.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.cvrp.CVRPOptions" class="doc doc-heading">
+            <code>CVRPOptions</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
+
+
+
+        <p>Options in the <code>[model]</code> table of a CVRP config.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.problems.cvrp.CVRPSolution" class="doc doc-heading">
+            <code>CVRPSolution</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Routes (customer sequences), their loads and the total cost.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.problems.cvrp.CVRPSolution.total_cost" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">total_cost</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Sum of route costs (recomputed).</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.problems.heuristics"></a>
+    <div class="doc doc-contents first">
+
+        <p>Construction and improvement heuristics used as MIP starts.</p>
+<p>A good incumbent from the start lets branch-and-bound prune immediately; these
+classical heuristics are cheap and usually within a few percent of optimal.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.problems.heuristics.clarke_wright" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">clarke_wright</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">demand</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">depot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parallel Clarke-Wright savings: merge routes in order of <code>d0i + d0j - dij</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.problems.heuristics.nearest_neighbour" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">nearest_neighbour</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Greedy tour: always visit the closest unvisited node.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.problems.heuristics.two_opt" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">two_opt</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">tour</span><span class="p">,</span> <span class="n">max_rounds</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Best-improvement 2-opt: reverse segments while that shortens the tour.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="linear_opt.core.graph"></a>
+    <div class="doc doc-contents first">
+
+        <p>Graph helpers for routing models: edge indexing, components, minimum cuts.</p>
+<p>Symmetric routing models use one variable per undirected edge
+:math:<code>e = \{i, j\}</code>, :math:<code>i &lt; j</code>, stored in row-major upper-triangular order.
+:class:<code>EdgeIndex</code> maps between edges, node pairs and cut sets
+:math:<code>\delta(S) = \{\{i, j\} : i \in S, j \notin S\}</code>.</p>
+<p>Separation of subtour-elimination constraints
+:math:<code>x(\delta(S)) \ge 2</code> needs a global minimum cut of the support graph
+weighted by :math:<code>x</code>; :func:<code>min_cut_phases</code> implements Stoer &amp; Wagner (1997).</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="linear_opt.core.graph.EdgeIndex" class="doc doc-heading">
+            <code>EdgeIndex</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Undirected edges of the complete graph on <code>n</code> nodes.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.m" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">m</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Number of edges, <code>n (n - 1) / 2</code>.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.delta" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delta</span><span class="p">(</span><span class="n">in_s</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Edges with exactly one endpoint in <code>S</code> (boolean node mask).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.id" class="doc doc-heading">
+            <code class="highlight language-python"><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Index of edge <code>{a, b}</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.incidence" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">incidence</span><span class="p">()</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Node-edge incidence matrix <code>(n, m)</code>: row <code>v</code> sums the edges at <code>v</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.inside" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">inside</span><span class="p">(</span><span class="n">in_s</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Edges with both endpoints in <code>S</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.to_matrix" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Symmetric <code>(n, n)</code> matrix from per-edge values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="linear_opt.core.graph.EdgeIndex.weights" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">weights</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-edge values from a symmetric <code>(n, n)</code> matrix.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.graph.components" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">components</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-06</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Connected components of the graph with edges where <code>w &gt; eps</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.graph.global_min_cut" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">global_min_cut</span><span class="p">(</span><span class="n">w</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Value and one side of a global minimum cut (Stoer-Wagner).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.graph.mask" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mask</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Boolean membership mask of <code>nodes</code> in <code>range(n)</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="linear_opt.core.graph.min_cut_phases" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">min_cut_phases</span><span class="p">(</span><span class="n">w</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>All "cut-of-the-phase" values of Stoer-Wagner on a dense symmetric weight matrix.</p>
+<p>The minimum over the returned cuts is a global minimum cut. Returning every
+phase cut lets a separator add several violated cuts per round.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span>[<span title="tuple">tuple</span>[<span title="float">float</span>, <span title="linear_opt.core.ir.IntArray">IntArray</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>(value, nodes_on_one_side)</code> for each of the <code>n - 1</code> phases.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
