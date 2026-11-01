@@ -80,7 +80,7 @@ pandas==3.0.6
     # via
     #   linear-opt
     #   streamlit
-pillow==12.3.0
+pillow==13.0.0
     # via streamlit
 plotly==7.1.0
     # via linear-opt
