@@ -128,7 +128,7 @@ streamlit==1.64.0
     # via linear-opt
 toml==0.10.2
     # via streamlit
-typer==0.27.2
+typer==0.27.3
     # via linear-opt
 typing-extensions==4.16.0
     # via
