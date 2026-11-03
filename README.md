@@ -1,4 +1,3 @@
-### Development in progress...
 
 # <img src="logo.png" alt="LinearMilpOpt logo" height="44" align="middle"> LinearMilpOpt: Linear and mixed-integer optimization Toolkit in Python
 
