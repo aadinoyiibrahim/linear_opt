@@ -1,6 +1,6 @@
 ### Development in progress...
 
-# LinearMilpOpt: Linear and mixed-integer optimization Toolkit in Python
+# <img src="logo.png" alt="LinearMilpOpt logo" height="44" align="middle"> LinearMilpOpt: Linear and mixed-integer optimization Toolkit in Python
 
 [![CI](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/ci.yml/badge.svg)](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/ci.yml)
 [![Docs](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/docs.yml/badge.svg)](https://aadinoyiibrahim.github.io/LinearMilpOpt/)
