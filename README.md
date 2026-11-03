@@ -40,7 +40,24 @@ uv run pyreverse -o png -p linear_opt src/linear_opt/
 
 -->
 
----
+
+## 13. Project layout
+
+```
+src/linear_opt/
+  core/       config (TOML), ir (ModelBuilder), model (OptimizationModel), result,
+              duality, study (formulation comparison), graph (edges, min cut)
+  solvers/    base (interface, row generation), gurobi (matrix API, lazy + user cuts,
+              IIS), highs (callbacks, root cut loop)
+  problems/   transport, facility, tsp, cvrp, jobshop, heuristics, registry (config -> model)
+  data/       download cache, GeoNames, OR-Library, TSPLIB/CVRPLIB, JSPLIB, distances,
+              sources.toml
+  viz/        theme, transport, facility, routing, scheduling (Gantt), mip, HTML report
+  app/        Streamlit dashboard: logic.py (tested), main.py (page)
+  cli.py      `linopt` command
+configs/      one TOML per run
+tests/        pytest + hypothesis
+```
 
 ## 1. Install
 
@@ -634,23 +651,6 @@ GHCR images are private at first; make the package public under
 
 -->
 
-## 13. Project layout
-
-```
-src/linear_opt/
-  core/       config (TOML), ir (ModelBuilder), model (OptimizationModel), result,
-              duality, study (formulation comparison), graph (edges, min cut)
-  solvers/    base (interface, row generation), gurobi (matrix API, lazy + user cuts,
-              IIS), highs (callbacks, root cut loop)
-  problems/   transport, facility, tsp, cvrp, jobshop, heuristics, registry (config -> model)
-  data/       download cache, GeoNames, OR-Library, TSPLIB/CVRPLIB, JSPLIB, distances,
-              sources.toml
-  viz/        theme, transport, facility, routing, scheduling (Gantt), mip, HTML report
-  app/        Streamlit dashboard: logic.py (tested), main.py (page)
-  cli.py      `linopt` command
-configs/      one TOML per run
-tests/        pytest + hypothesis
-```
 
 ## Citing
 
