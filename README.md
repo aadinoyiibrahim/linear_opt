@@ -639,7 +639,7 @@ Releasing:
 # 1. bump `version` in pyproject.toml and CITATION.cff, move notes under a new
 #    "## [X.Y.Z]" heading in CHANGELOG.md, commit
 # 2. tag and push
-git tag v0.1.0 && git push origin v0.1.0
+git tag v1.0.0 && git push origin v1.0.0
 ```
 
 One-time repository settings: **Settings → Pages → Source: `gh-pages` branch**.

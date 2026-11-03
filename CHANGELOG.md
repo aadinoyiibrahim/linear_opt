@@ -7,19 +7,9 @@ section matching the tag as the GitHub release notes.
 
 ## [Unreleased]
 
-### Changed
+## [1.0.0] - 2026-11-03
 
-- **Renamed the project to LinearMilpOpt.** Breaking for existing installs:
-  - package and import name `linear_opt` / `linear-opt` -> `linearmilpopt`;
-  - command `linopt` -> `linearmilpopt`;
-  - environment variables `LINEAR_OPT_DATA_DIR` / `LINEAR_OPT_CONFIG_DIR` ->
-    `LINEARMILPOPT_DATA_DIR` / `LINEARMILPOPT_CONFIG_DIR`;
-  - download cache `~/.cache/linear_opt` -> `~/.cache/linearmilpopt`;
-  - repository `aadinoyiibrahim/LinearMilpOpt`, image
-    `ghcr.io/aadinoyiibrahim/linearmilpopt`, dashboard
-    `linearmilpopt.streamlit.app`.
-
-## [0.1.0] - 2026-10-02
+First public release.
 
 ### Added
 
@@ -43,5 +33,18 @@ section matching the tag as the GitHub release notes.
   Python 3.11-3.13 and macOS, docs, Docker smoke tests), release workflow
   (GHCR multi-arch image, wheel/sdist), docs on GitHub Pages.
 
-[Unreleased]: https://github.com/aadinoyiibrahim/LinearMilpOpt/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/aadinoyiibrahim/LinearMilpOpt/releases/tag/v0.1.0
+### Changed
+
+- **Renamed the project to LinearMilpOpt** (pre-release name: linear_opt). If you
+  installed a pre-release:
+  - package and import name `linear_opt` / `linear-opt` -> `linearmilpopt`;
+  - command `linopt` -> `linearmilpopt`;
+  - environment variables `LINEAR_OPT_DATA_DIR` / `LINEAR_OPT_CONFIG_DIR` ->
+    `LINEARMILPOPT_DATA_DIR` / `LINEARMILPOPT_CONFIG_DIR`;
+  - download cache `~/.cache/linear_opt` -> `~/.cache/linearmilpopt`;
+  - repository `aadinoyiibrahim/LinearMilpOpt`, image
+    `ghcr.io/aadinoyiibrahim/linearmilpopt`, dashboard
+    `linearmilpopt.streamlit.app`.
+
+[Unreleased]: https://github.com/aadinoyiibrahim/LinearMilpOpt/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/aadinoyiibrahim/LinearMilpOpt/releases/tag/v1.0.0
