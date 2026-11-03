@@ -41,7 +41,7 @@ uv run pyreverse -o png -p linear_opt src/linear_opt/
 -->
 
 
-## 13. Project layout
+## 0. Project layout
 
 ```
 src/linear_opt/
