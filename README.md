@@ -6,10 +6,17 @@
 [![Docs](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/docs.yml/badge.svg)](https://aadinoyiibrahim.github.io/linear_opt/)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![Live demo](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://linearopt.streamlit.app/)
 
 - **Gurobi** is the primary solver;
 - **HiGHS** is an open-source fallback,
 so everything also runs without a commercial licence. Models are solved on real benchmark data, checked independently of the solver, and explored through interactive Plotly reports and a Streamlit dashboard.
+
+<p align="center">
+  <img src="docs/assets/transport_flows.gif" width="540"
+       alt="Optimal transport plan between 40 German cities: shipments drawn largest first, with the running cost">
+</p>
+<p align="center"><sub>Optimal transport between 40 German cities (LP, 256 variables), solved by Gurobi. Try it in the <a href="https://linearopt.streamlit.app/">live dashboard</a>; regenerate with <code>uv run --with kaleido python scripts/make_readme_gif.py</code>.</sub></p>
 
 | Problem | Class | Data |
 |---|---|---|
@@ -357,6 +364,8 @@ result.solution.makespan, result.solution.critical  # 55.0, (op ids on the criti
 
 ## 7. Interactive dashboard
 
+**Live:** [linearopt.streamlit.app](https://linearopt.streamlit.app/) (private while the repository is private: viewers need an invite).
+
 ```bash
 uv sync --all-extras          # or: uv sync --extra app --extra highs
 uv run linopt app             # opens http://localhost:8501
@@ -393,10 +402,11 @@ problem type, compares backends and runs a formulation study (`tests/test_app.py
 
 ### Deploy on Streamlit Community Cloud
 
-Community Cloud builds from `requirements.txt` (not Docker). That file pins
-the same versions as `uv.lock` and installs the package with both solvers, so
-the bundled benchmark snapshots are available. CI fails if it drifts from the
-lock file; after changing dependencies run:
+Community Cloud does not use Docker. When the repository has several dependency
+files it installs from `uv.lock` (`uv sync`), so the app runs exactly the
+versions CI tests, including both solvers and the bundled benchmark snapshots.
+`requirements.txt` mirrors the lock file for platforms that only read that
+format; CI fails if it drifts. After changing dependencies run:
 
 ```bash
 uv lock && make requirements   # then commit uv.lock and requirements.txt
@@ -410,8 +420,8 @@ uv lock && make requirements   # then commit uv.lock and requirements.txt
 3. **Advanced settings**: Python **3.12**. No secrets are needed: Gurobi runs on
    its bundled restricted licence and HiGHS handles larger models. Do not store
    a WLS or academic Gurobi licence in a shared app's secrets.
-4. **Deploy**, then open *Manage app → logs* and confirm the build installed
-   from `requirements.txt`.
+4. **Deploy**, then check *Manage app → logs*: it should report
+   "installed from .../uv.lock using uv-sync".
 5. A private repository gives a private app: invite viewers under
    *Share* (by email).
 
