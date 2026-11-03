@@ -654,7 +654,7 @@ GHCR images are private at first; make the package public under
 ## Citing
 
 If you use this software in academic work, please cite it using
-[`CITATION.cff`](CITATION.cff) (GitHub shows a "Cite this repository" button).
+[`CITATION.cff`](CITATION.cff) .
 
 ## Data and licences
 
