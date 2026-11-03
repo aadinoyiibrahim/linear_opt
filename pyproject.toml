@@ -50,6 +50,7 @@ docs = [
     "mkdocs-material>=9.5",
     "mkdocstrings[python]>=0.25",
 ]
+deploy = ["linear-opt[app,highs,gurobi,viz]"]
 
 [build-system]
 requires = ["hatchling>=1.24"]
@@ -59,7 +60,7 @@ build-backend = "hatchling.build"
 packages = ["src/linear_opt"]
 
 [tool.uv]
-default-groups = ["dev"]
+default-groups = ["dev", "deploy"]
 
 # ----- ruff
 [tool.ruff]

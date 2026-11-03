@@ -41,7 +41,7 @@ _STATUS: dict[int, SolveStatus] = {
     GRB.INTERRUPTED: SolveStatus.INTERRUPTED,
     GRB.NUMERIC: SolveStatus.NUMERIC,
 }
-_SIZE_LIMIT_ERRNO = 10010  # "Model too large for size-limited license"
+_SIZE_LIMIT_ERRNO = 10010
 
 
 def _finite(a: FloatArray) -> FloatArray:
@@ -52,7 +52,6 @@ def _finite(a: FloatArray) -> FloatArray:
 class _Callback:
     """Gurobi callback: lazy constraints + progress recording."""
 
-    #: Separation rounds allowed at the root node for user cuts.
     MAX_ROOT_ROUNDS = 100
 
     def __init__(
@@ -114,7 +113,6 @@ class GurobiBackend(SolverBackend):
     def version(self) -> str:  # noqa: D102
         return ".".join(map(str, gp.gurobi.version()))
 
-    # --- helpers
     @staticmethod
     @contextmanager
     def _environment(settings: SolverSettings) -> Iterator[gp.Env]:
@@ -177,7 +175,6 @@ class GurobiBackend(SolverBackend):
                 ) from exc
             raise
 
-    # --- solve
     def solve(  # noqa: D102
         self,
         model: LinearModel,
@@ -232,8 +229,6 @@ class GurobiBackend(SolverBackend):
             )
             reduced = np.asarray(x.RC, dtype=np.float64)
         if model.is_mip:
-            # Close the trajectory with the final state; presolve may solve a model
-            # before the callback ever sees an incumbent.
             inf = GRB.INFINITY
             callback.progress.record(
                 float(m.Runtime),
@@ -271,7 +266,6 @@ class GurobiBackend(SolverBackend):
             self._populate(m, model)
             m.write(path)
 
-    # ------- IIS
     def compute_iis(self, model: LinearModel, settings: SolverSettings) -> list[str]:
         """Return names of constraints and bounds forming an IIS (empty if feasible)."""
         with (

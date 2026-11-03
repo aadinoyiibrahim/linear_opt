@@ -251,7 +251,6 @@ class ModelBuilder:
         self._senses: list[npt.NDArray[np.str_]] = []
         self._rhs: list[FloatArray] = []
 
-    # ------------------------------------------------------------------ variables
     def add_vars(
         self,
         name: str,
@@ -299,7 +298,6 @@ class ModelBuilder:
         self._n += block.size
         return block
 
-    # ---------------------------------------------------------------- constraints
     def add_constrs(
         self,
         name: str,
@@ -357,7 +355,6 @@ class ModelBuilder:
         """Set the constant :math:`c_0` in the objective."""
         self._c0 = float(value)
 
-    # ---------------------------------------------------------------------- build
     def build(self) -> LinearModel:
         """Assemble and freeze the model."""
         if self._n == 0:
@@ -392,7 +389,6 @@ class ModelBuilder:
             raise ValueError(f"duplicate block name {name!r}")
 
 
-# --------------------------------------------------------------------- helpers
 def sum_over(shape: tuple[int, int], axis: int) -> sp.csr_array:
     r"""Matrix that sums a row-major ``(m, n)`` block along ``axis``.
 

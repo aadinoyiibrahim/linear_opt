@@ -35,7 +35,6 @@ SOURCE_LABELS = {
     "jsplib": "JSPLIB",
 }
 
-#: Gurobi's bundled pip licence is limited to about this many variables/constraints.
 RESTRICTED_LIMIT = 2000
 
 
@@ -76,7 +75,6 @@ def instance_choices(kind: ProblemKind) -> dict[str, list[str]]:
     return out
 
 
-# ------------------------------------------------------------------- widgets
 @dataclass(frozen=True)
 class WidgetSpec:
     """How to render one pydantic field as an input widget."""
@@ -146,7 +144,6 @@ def params_model(kind: ProblemKind, source: str) -> type[BaseModel] | None:
     return registry.SOURCES[kind].get(source)
 
 
-# -------------------------------------------------------------------- config
 def build_config(
     kind: ProblemKind,
     name: str,
@@ -188,7 +185,7 @@ def _toml_value(value: Any) -> str:
         return "true" if value else "false"
     if isinstance(value, int | float):
         return repr(value)
-    return json.dumps(str(value))  # JSON strings are valid TOML basic strings
+    return json.dumps(str(value))
 
 
 def to_toml(cfg: RunConfig) -> str:
@@ -211,11 +208,10 @@ def to_toml(cfg: RunConfig) -> str:
         if data.get(section) or section != "model":
             table(section, data.get(section, {}))
     text = "\n".join(lines).rstrip() + "\n"
-    RunConfig.model_validate(tomllib.loads(text))  # never emit something we cannot read back
+    RunConfig.model_validate(tomllib.loads(text))
     return text
 
 
-# --------------------------------------------------------------------- solve
 @dataclass
 class Outcome:
     """Result of a dashboard action, or a readable error."""

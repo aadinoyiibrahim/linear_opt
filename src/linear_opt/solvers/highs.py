@@ -28,7 +28,7 @@ _STATUS: dict[Any, SolveStatus] = {
     _MS.kTimeLimit: SolveStatus.TIME_LIMIT,
     _MS.kInterrupt: SolveStatus.INTERRUPTED,
 }
-_FEASIBLE = 2  # HighsSolutionStatus kSolutionStatusFeasible
+_FEASIBLE = 2
 
 
 def _row_bounds(senses: np.ndarray[Any, Any], rhs: FloatArray) -> tuple[FloatArray, FloatArray]:
@@ -86,7 +86,7 @@ class HighsBackend(SolverBackend):
             Capability.WARM_START,
             Capability.EXPORT,
             Capability.PROGRESS,
-            Capability.USER_CUTS,  # as a root cut loop before branch-and-bound
+            Capability.USER_CUTS,
         }
     )
     #: Rounds of the root cut loop.
@@ -127,7 +127,7 @@ class HighsBackend(SolverBackend):
             h.setSolution(start)
 
         progress = ProgressRecorder()
-        clock = {"offset": 0.0}  # HiGHS restarts its timer on every run
+        clock = {"offset": 0.0}
         minimise = model.sense is ObjSense.MINIMIZE
         best_bound = {"value": -np.inf if minimise else np.inf}
         if model.is_mip:
@@ -136,9 +136,6 @@ class HighsBackend(SolverBackend):
                 out = event.data_out
                 incumbent, bound = out.mip_primal_bound, out.mip_dual_bound
                 if lazy is not None:
-                    # Row generation: every round's bound is valid for the full
-                    # model, so keep the best one; incumbents of a round may still
-                    # violate lazy constraints and are not shown.
                     if np.isfinite(bound):
                         pick = max if minimise else min
                         best_bound["value"] = pick(best_bound["value"], bound)
@@ -223,8 +220,6 @@ class HighsBackend(SolverBackend):
         status = _STATUS.get(h.getModelStatus(), SolveStatus.OTHER)
         info = h.getInfo()
         sol = h.getSolution()
-        # A row-generation run stopped early may hold a point that violates
-        # outstanding lazy constraints: it is not feasible for the true model.
         has_solution = info.primal_solution_status == _FEASIBLE and not lazy_violated
         if lazy_violated and status is SolveStatus.OPTIMAL:
             status = SolveStatus.TIME_LIMIT

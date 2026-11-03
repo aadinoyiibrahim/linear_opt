@@ -14,13 +14,13 @@ from linear_opt.problems.tsp import TSPInstance, TSPSolution
 from linear_opt.viz.mip import mip_progress
 from linear_opt.viz.theme import palette, template
 
-NODE, DEPOT = 1, 0  # categorical slots
+NODE, DEPOT = 1, 0
 
 
 def _coords(xy: FloatArray | None, n: int) -> FloatArray:
     if xy is not None:
         return xy
-    angle = np.linspace(0, 2 * np.pi, n, endpoint=False)  # no coordinates: draw on a circle
+    angle = np.linspace(0, 2 * np.pi, n, endpoint=False)
     return np.column_stack([np.cos(angle), np.sin(angle)])
 
 

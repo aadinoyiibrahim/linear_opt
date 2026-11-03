@@ -1,1 +1,1 @@
-"""Solver-agnostic abstractions: configuration, backends, results."""
+"""Core optimization package."""

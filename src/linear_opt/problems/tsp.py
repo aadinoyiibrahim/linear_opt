@@ -186,7 +186,6 @@ class TSPModel(OptimizationModel[TSPInstance, TSPSolution, TSPOptions]):
         self.edge_index = EdgeIndex(self.data.n)
         self.history: list[SubtourFrame] = []
 
-    # ------------------------------------------------------------------ build
     def _build(self, builder: ModelBuilder) -> None:
         n, d = self.data.n, self.data.dist
         self._aux = None
@@ -226,7 +225,6 @@ class TSPModel(OptimizationModel[TSPInstance, TSPSolution, TSPOptions]):
                 "carry", [(self._aux, pick), (self._x, -(n - 1.0) * pick)], Sense.LE, 0.0
             )
 
-    # ------------------------------------------------------------ separation
     def separate(self, x: FloatArray, *, record: bool = True) -> list[Cut]:
         """Violated subtour cuts ``x(delta(S)) >= 2`` for an edge vector ``x``."""
         e, n = self.edge_index, self.data.n
@@ -267,7 +265,6 @@ class TSPModel(OptimizationModel[TSPInstance, TSPSolution, TSPOptions]):
             return None
         return lambda x: self.separate(x, record=False)
 
-    # ------------------------------------------------------------- warm start
     def heuristic_tour(self) -> list[int]:
         """Nearest neighbour followed by 2-opt."""
         return two_opt(self.data.dist, nearest_neighbour(self.data.dist))
@@ -308,7 +305,6 @@ class TSPModel(OptimizationModel[TSPInstance, TSPSolution, TSPOptions]):
             "mtz": {"formulation": "mtz"},
         }
 
-    # ------------------------------------------------------------- solution
     def _extract(self, raw: RawSolution) -> TSPSolution:
         assert raw.x is not None
         assert raw.objective is not None

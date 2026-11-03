@@ -22,7 +22,6 @@ CITIES_URL = "https://download.geonames.org/export/dump/cities15000.zip"
 POPULATED_PLACES = frozenset({"PPL", "PPLA", "PPLA2", "PPLA3", "PPLA4", "PPLC", "PPLG"})
 FIXTURE_NAME = "de_cities.csv"
 
-# Column positions in the GeoNames "geoname" table (see the dump's readme.txt).
 _ID, _NAME, _LAT, _LON, _FCLASS, _FCODE, _COUNTRY, _POP = 0, 1, 4, 5, 6, 7, 8, 14
 
 

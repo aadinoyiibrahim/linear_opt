@@ -20,8 +20,8 @@ from linear_opt.core.backends import available_backends
 from linear_opt.core.config import ProblemKind, RunConfig
 
 ASSETS = Path(__file__).parent / "assets"
-LOGO = ASSETS / "logo.png"  # transparent, trimmed copy of the repository's logo.png
-LOGO_MARK = ASSETS / "logo_mark.png"  # the triangulation only, square (browser tab)
+LOGO = ASSETS / "logo.png"
+LOGO_MARK = ASSETS / "logo_mark.png"
 
 st.set_page_config(page_title="linear_opt", page_icon=str(LOGO_MARK), layout="wide")
 
@@ -34,7 +34,6 @@ COLUMN_NAMES = {
 }
 
 
-# ------------------------------------------------------------------ widgets
 def render_specs(
     specs: list[logic.WidgetSpec], defaults: dict[str, Any], prefix: str
 ) -> dict[str, Any]:
@@ -176,7 +175,6 @@ def sidebar() -> tuple[ProblemKind, RunConfig | None, bool]:
     return kind, cfg, dark
 
 
-# -------------------------------------------------------------------- views
 @st.cache_resource(show_spinner="Loading instance ...", max_entries=16)
 def preview(cfg_json: str) -> logic.Outcome:
     """Build (but do not solve) the model; cached per instance and options."""
@@ -392,7 +390,6 @@ def show_model(cfg: RunConfig, built: logic.Outcome) -> None:
     st.caption(f"Then run: `uv run linopt solve {cfg.problem.name}.toml --html report.html`")
 
 
-# --------------------------------------------------------------------- page
 def main() -> None:
     """Draw the page."""
     kind, cfg, dark = sidebar()

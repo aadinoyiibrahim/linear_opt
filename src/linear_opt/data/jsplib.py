@@ -146,7 +146,7 @@ def snapshot(
         text = fetch(f"{JSPLIB_URL}instances/{name}", f"jsplib_{name}", force=True).read_text(
             encoding="utf-8"
         )
-        parse_jsp(text, name)  # refuse malformed files
+        parse_jsp(text, name)
         (target / name).write_text(text, encoding="utf-8")
         written.append(target / name)
     meta = fetch(JSPLIB_URL + META_FILE, "jsplib_instances.json", force=True)

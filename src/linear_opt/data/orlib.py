@@ -27,7 +27,7 @@ from linear_opt.core.ir import FloatArray
 from linear_opt.data.download import fetch
 
 BASE_URL = "http://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/"
-#: Instance ids in OR-Library order (cap5x has a single member).
+
 CAP_IDS: tuple[str, ...] = tuple(
     f"cap{group}{k}"
     for group, size in (
@@ -55,7 +55,7 @@ class CapData:
     capacity: FloatArray
     fixed_cost: FloatArray
     demand: FloatArray
-    cost: FloatArray  # (m, n): cost of serving all of customer j from warehouse i
+    cost: FloatArray
 
     @property
     def shape(self) -> tuple[int, int]:

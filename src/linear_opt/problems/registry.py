@@ -221,8 +221,6 @@ def model_from_config(cfg: RunConfig) -> OptimizationModel[Any, Any, Any]:
     raise NotImplementedError(f"problem kind '{cfg.problem.kind}' is not implemented yet")
 
 
-# ------------------------------------------------------------------ catalogue
-#: Model class per problem kind.
 MODEL_CLASSES: dict[ProblemKind, type[OptimizationModel[Any, Any, Any]]] = {
     ProblemKind.TRANSPORT: TransportModel,
     ProblemKind.FACILITY_LOCATION: FacilityModel,
@@ -231,8 +229,7 @@ MODEL_CLASSES: dict[ProblemKind, type[OptimizationModel[Any, Any, Any]]] = {
     ProblemKind.JOB_SHOP: JobShopModel,
 }
 
-#: Instance sources per problem kind, and the pydantic model of their
-#: ``[instance.params]`` (``None``: the source takes no parameters).
+
 SOURCES: dict[ProblemKind, dict[str, type[BaseModel] | None]] = {
     ProblemKind.TRANSPORT: {
         "synthetic": SyntheticTransportParams,

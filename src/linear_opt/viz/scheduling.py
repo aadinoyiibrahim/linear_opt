@@ -64,7 +64,7 @@ def _gantt(inst: JobShopInstance, sol: JobShopSolution, *, by: str, dark: bool) 
                 ),
             )
         )
-    # legend swatches without outlines (a bar's first outline would leak into the legend)
+
     for j in range(inst.n_jobs):
         fig.add_trace(
             go.Bar(
@@ -77,7 +77,7 @@ def _gantt(inst: JobShopInstance, sol: JobShopSolution, *, by: str, dark: bool) 
                 hoverinfo="skip",
             )
         )
-    # legend key for the critical-path outline
+
     fig.add_trace(
         go.Bar(
             x=[None],

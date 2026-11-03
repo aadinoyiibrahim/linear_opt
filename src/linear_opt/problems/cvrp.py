@@ -87,7 +87,6 @@ class CVRPInstance:
         path = [0, *route, 0]
         return float(sum(self.dist[a, b] for a, b in pairwise(path)))
 
-    # ----------------------------------------------------------------- factories
     @classmethod
     def from_tsplib(
         cls,
@@ -191,7 +190,6 @@ class CVRPModel(OptimizationModel[CVRPInstance, CVRPSolution, CVRPOptions]):
         super().__init__(*args, **kwargs)
         self.edge_index = EdgeIndex(self.data.n)
 
-    # ------------------------------------------------------------------ build
     def _depot_bounds(self) -> tuple[float, float]:
         k_max = float(self.data.vehicles)
         k_min = k_max if self.options.fleet == "exact" else float(self.data.min_vehicles)
@@ -242,8 +240,6 @@ class CVRPModel(OptimizationModel[CVRPInstance, CVRPSolution, CVRPOptions]):
             inst.capacity - inst.demand[j],
         )
 
-    # ------------------------------------------------------------ separation
-    #: Support thresholds for the fractional component heuristic.
     THRESHOLDS = (EPS, 0.25, 0.5, 0.75)
 
     def separate(self, x: FloatArray) -> list[Cut]:
@@ -280,7 +276,6 @@ class CVRPModel(OptimizationModel[CVRPInstance, CVRPSolution, CVRPOptions]):
         ok = self.options.formulation == "two_index" and self.options.root_cuts
         return self.separate if ok else None
 
-    # ------------------------------------------------------------- warm start
     def heuristic_routes(self) -> list[list[int]]:
         """Clarke-Wright savings routes."""
         return clarke_wright(self.data.dist, self.data.demand, self.data.capacity)
@@ -319,7 +314,6 @@ class CVRPModel(OptimizationModel[CVRPInstance, CVRPSolution, CVRPOptions]):
             "mtz load": {"formulation": "mtz"},
         }
 
-    # ------------------------------------------------------------- solution
     def _routes(self, values: FloatArray) -> list[list[int]]:
         n = self.data.n
         if self.options.formulation == "two_index":

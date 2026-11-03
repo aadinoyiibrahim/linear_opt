@@ -28,7 +28,7 @@ class Result(Generic[S]):
     solution: S | None
     violations: tuple[str, ...]
     model_stats: Mapping[str, Any] = field(default_factory=dict)
-    reference: float | None = None  # known optimum (e.g. from a benchmark library)
+    reference: float | None = None
 
     @property
     def ok(self) -> bool:
@@ -93,7 +93,6 @@ class OptimizationModel(ABC, Generic[D, S, O]):
         self.name = name or self.kind.value
         self._linear_model: LinearModel | None = None
 
-    # ---------------------------------------------------------------- template
     @abstractmethod
     def _build(self, builder: ModelBuilder) -> None:
         """Declare variable and constraint blocks."""
@@ -132,7 +131,6 @@ class OptimizationModel(ABC, Generic[D, S, O]):
         options = {**self.options.model_dump(), **overrides}
         return type(self)(self.data, options, name=self.name)
 
-    # -------------------------------------------------------------------- API
     def build(self) -> LinearModel:
         """Compile (once) to the solver-neutral IR."""
         if self._linear_model is None:

@@ -11,7 +11,7 @@ from linear_opt.core.result import ProgressPoint
 from linear_opt.core.study import VariantResult
 from linear_opt.viz.theme import palette, template
 
-INCUMBENT, BOUND = 0, 1  # categorical slots
+INCUMBENT, BOUND = 0, 1
 
 
 def _x_axis(points: Sequence[ProgressPoint]) -> tuple[list[float], str]:
@@ -57,8 +57,7 @@ def mip_progress(
             annotation_font={"color": p.ink_secondary, "size": 12},
             annotation_position="top left",
         )
-    # Solvers start from trivial bounds (e.g. 0) that would flatten the
-    # interesting region; zoom the y-axis onto it (pan/zoom still shows all).
+
     finals = (
         [v for v in (progress[-1].incumbent, progress[-1].bound) if v is not None]
         if progress
@@ -68,8 +67,6 @@ def mip_progress(
     if reference is not None:
         values.append(reference)
     if values and max(values) - min(values) <= 1e-9 * max(1.0, abs(max(values))):
-        # Only one objective value (e.g. row generation shows no incumbents):
-        # fall back to the bound history so its climb remains visible.
         values += [pt.bound for pt in progress if pt.bound is not None]
     yaxis: dict[str, object] = {"title": "objective"}
     if values:

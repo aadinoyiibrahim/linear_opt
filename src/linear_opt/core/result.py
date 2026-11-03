@@ -36,7 +36,10 @@ class ProgressPoint:
 
 @dataclass(frozen=True, eq=False)
 class Cut:
-    """A single linear constraint ``sum(coefs * x[cols]) sense rhs`` added during the solve."""
+    """A single linear constraint ``sum(coefs * x[cols]) sense rhs``.
+
+    added during the solve.
+    """
 
     cols: IntArray
     coefs: FloatArray
@@ -73,7 +76,6 @@ class ProgressRecorder:
             self.points.append(ProgressPoint(float(t), inc, bnd))
 
 
-#: Separation oracle: given an integer-feasible ``x``, return violated cuts (empty if none).
 LazyOracle = Callable[[FloatArray], Sequence[Cut]]
 
 

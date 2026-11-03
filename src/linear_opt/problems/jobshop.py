@@ -66,7 +66,6 @@ class JobShopInstance:
         if np.any(self.durations < 0) or not np.all(np.isfinite(self.durations)):
             raise ValueError("durations must be finite and non-negative")
 
-    # ---------------------------------------------------------------- shape
     @property
     def n_jobs(self) -> int:
         """Number of jobs."""
@@ -121,7 +120,6 @@ class JobShopInstance:
         """Human-readable operation name, e.g. ``J3·2`` (job 3, step 2), 1-based."""
         return f"J{o // self.n_ops + 1}·{o % self.n_ops + 1}"
 
-    # ------------------------------------------------------------ factories
     @classmethod
     def from_data(cls, data: JobShopData, ref: Reference | None = None) -> JobShopInstance:
         """Wrap a parsed benchmark instance."""
@@ -145,7 +143,6 @@ class JobShopInstance:
         return cls(f"random-{n_jobs}x{n_machines}", machines, durations)
 
 
-# --------------------------------------------------------------- heuristics
 def giffler_thompson(inst: JobShopInstance, rule: Literal["mwkr", "spt"] = "mwkr") -> FloatArray:
     """Active schedule (Giffler & Thompson 1960) with a priority rule.
 
@@ -233,7 +230,6 @@ def critical_path(inst: JobShopInstance, starts: FloatArray) -> list[int]:
     return path[::-1]
 
 
-# -------------------------------------------------------------------- model
 class JobShopOptions(BaseModel):
     """Options in the ``[model]`` table of a job-shop config."""
 
@@ -253,8 +249,6 @@ class JobShopSolution:
     objective: float
     critical: tuple[int, ...]
     progress: tuple[ProgressPoint, ...] = ()
-    #: Tolerance-level violations in the raw solver output that the left shift
-    #: repaired (big-M models with large M are prone to these).
     repaired_violations: int = 0
 
 
@@ -274,7 +268,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
         super().__init__(*args, **kwargs)
         self._heuristic: FloatArray | None = None
 
-    # -------------------------------------------------------------- horizon
     def heuristic_starts(self) -> FloatArray:
         """Best Giffler-Thompson schedule (cached)."""
         if self._heuristic is None:
@@ -288,7 +281,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
             return float(inst.p.sum())
         return float((self.heuristic_starts() + inst.durations).max())
 
-    # ----------------------------------------------------------------- build
     def _build(self, builder: ModelBuilder) -> None:
         if self.options.formulation == "disjunctive":
             self._build_disjunctive(builder)
@@ -350,7 +342,7 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
             Sense.LE,
             m_ab - p[a],
         )
-        # y = 0 (b before a):  s_b - s_a - M_ba * y <= -p_b
+
         builder.add_constrs(
             "b_before_a",
             [(self._start, -s1), (self._order, sp.diags_array(-m_ba))],
@@ -383,7 +375,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
         assign = sp.csr_array((np.ones(n_x), (op, cols)), shape=(n_op, n_x))
         builder.add_constrs("assign", [(self._start, assign)], Sense.EQ, 1.0)
 
-        # capacity: x_{o,tau} occupies machine mu_o during tau .. tau + p_o - 1
         busy_rows, busy_cols = [], []
         for c in range(n_x):
             o = op[c]
@@ -397,9 +388,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
         )
         builder.add_constrs("capacity", [(self._start, cap)], Sense.LE, 1.0)
 
-        # Strong (disaggregated) precedence: o+1 can have started by time tt only
-        # if o started by tt - p_o:  sum_{tau<=tt} x_{o+1,tau} <= sum_{tau<=tt-p_o} x_{o,tau}.
-        # The aggregated form sum t x_{o+1,t} >= sum t x_{o,t} + p_o is much weaker.
         before, after = self._precedence_rows()
         start_of = sp.csr_array((t.astype(np.float64), (op, cols)), shape=(n_op, n_x))
         p_rows: list[int] = []
@@ -409,7 +397,7 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
         for o, nxt in zip(before, after, strict=True):
             mine = np.flatnonzero(op == o)
             theirs = np.flatnonzero(op == nxt)
-            for tt in t[theirs][:-1]:  # the last window point is implied by "assign"
+            for tt in t[theirs][:-1]:
                 lhs = theirs[t[theirs] <= tt]
                 rhs = mine[t[mine] <= tt - p[o]]
                 p_rows += [row] * (len(lhs) + len(rhs))
@@ -426,7 +414,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
             p[last_ops].astype(float),
         )
 
-    # ------------------------------------------------------------ warm start
     def warm_start(self) -> FloatArray | None:
         """MIP start from the best Giffler-Thompson schedule."""
         if self.options.warm_start == "none":
@@ -462,7 +449,6 @@ class JobShopModel(OptimizationModel[JobShopInstance, JobShopSolution, JobShopOp
             "time-indexed": {"formulation": "time_indexed"},
         }
 
-    # ------------------------------------------------------------- solution
     def _extract(self, raw: RawSolution) -> JobShopSolution:
         assert raw.x is not None
         assert raw.objective is not None

@@ -76,7 +76,7 @@ def clarke_wright(
         if ri == rj or load[ri] + load[rj] > capacity + 1e-9:
             continue
         a, b = routes[ri], routes[rj]
-        # i and j must be route ends; orient so that ... i] + [j ...
+
         if a[-1] != i:
             if a[0] != i:
                 continue

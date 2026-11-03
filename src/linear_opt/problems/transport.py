@@ -93,7 +93,6 @@ class TransportInstance:
         """Total supply equals total demand."""
         return bool(np.isclose(self.supply.sum(), self.demand.sum()))
 
-    # ----------------------------------------------------------------- factories
     @classmethod
     def random(
         cls, n_sources: int, n_sinks: int, *, seed: int = 0, slack: float = 0.1

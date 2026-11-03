@@ -27,6 +27,8 @@ jobs:
         with:
           enable-cache: true
       - run: uv lock --check
+      - name: requirements.txt matches uv.lock (Streamlit Community Cloud installs from it)
+        run: make requirements && git diff --exit-code requirements.txt
       - run: uv sync --locked --all-extras
       - run: uv run ruff check --output-format=github .
       - run: uv run ruff format --check .

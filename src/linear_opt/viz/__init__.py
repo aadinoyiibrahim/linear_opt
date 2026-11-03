@@ -8,7 +8,6 @@ from __future__ import annotations
 import importlib
 from typing import Any
 
-#: problem kind -> (module in this package, figure function)
 FIGURES: dict[str, tuple[str, str]] = {
     "transport": ("transport", "all_figures"),
     "facility_location": ("facility", "all_figures"),

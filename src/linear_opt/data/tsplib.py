@@ -24,19 +24,13 @@ import numpy as np
 from linear_opt.core.ir import FloatArray
 from linear_opt.data.download import fetch
 
-#: TSPLIB sources, tried in order: (base URL, files are gzipped?). The original
-#: Heidelberg server is often slow or unreachable; the GitHub mirror (MIT
-#: licensed, pdrozdowski/TSPLib.Net) carries the same files uncompressed.
 TSPLIB_MIRRORS: tuple[tuple[str, bool], ...] = (
     ("https://raw.githubusercontent.com/pdrozdowski/TSPLib.Net/master/TSPLIB95/tsp/", False),
     ("http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp/", True),
 )
-#: CVRPLIB site. Downloads use numeric ids (``download/instance/<id>``,
-#: ``download/bks/<id>``) that are looked up on the instance list page.
+
 CVRPLIB_URL = "https://galgos.inf.puc-rio.br/cvrplib/en/"
 
-#: Optimal tour lengths published with TSPLIB 95 (STSP table). The test suite
-#: cross-checks them against the downloadable optimal tours where available.
 TSP_OPTIMA: dict[str, int] = {
     "burma14": 3323,
     "ulysses16": 6859,
@@ -282,7 +276,6 @@ def tour_length(dist: FloatArray, tour: Iterable[int]) -> float:
     return float(dist[t, np.roll(t, -1)].sum())
 
 
-# ---------------------------------------------------------------- loading
 def fixture_dir(library: str) -> Path:
     """Directory of packaged snapshots: ``tsplib`` or ``cvrplib``."""
     return Path(str(resources.files("linear_opt.data") / "fixtures" / library))
@@ -371,7 +364,6 @@ def snapshot_cvrplib(
         listing_url = f"{base_url.rstrip('/')}/instances"
         listing = fetch(listing_url, "cvrplib_instances.html", force=True)
         found = cvrplib_links(name, listing.read_text(encoding="utf-8", errors="replace"))
-        # The site uses root-relative links ("/cvrplib/en/download/instance/4").
         links = (urljoin(listing_url, found[0]), urljoin(listing_url, found[1]))
     written = []
     for k, suffix in enumerate((".vrp", ".sol")):

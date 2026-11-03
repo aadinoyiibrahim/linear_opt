@@ -81,8 +81,6 @@ def run_variants(
     out: list[VariantResult] = []
     for name, overrides in (variants or type(model).variants()).items():
         variant = model.with_options(**overrides)
-        # The oracle (if any) is applied by row generation, so a formulation with
-        # lazy constraints is judged by the LP bound of its *full* constraint set.
         relaxation = solver.solve(
             variant.build().relaxed(), settings, lazy=variant.lazy_constraints()
         )

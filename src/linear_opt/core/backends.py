@@ -12,12 +12,10 @@ from importlib.metadata import PackageNotFoundError, version
 from linear_opt.core.config import BackendName
 
 _MODULES: dict[BackendName, tuple[str, str]] = {
-    # backend -> (import name, distribution name)
     BackendName.GUROBI: ("gurobipy", "gurobipy"),
     BackendName.HIGHS: ("highspy", "highspy"),
 }
 
-#: Order in which ``auto`` tries backends.
 PREFERENCE: tuple[BackendName, ...] = (BackendName.GUROBI, BackendName.HIGHS)
 
 
@@ -39,7 +37,7 @@ def available_backends() -> dict[BackendName, str]:
         if is_available(backend):
             try:
                 found[backend] = version(_MODULES[backend][1])
-            except PackageNotFoundError:  # pragma: no cover - importable but not a dist
+            except PackageNotFoundError:
                 found[backend] = "unknown"
     return found
 

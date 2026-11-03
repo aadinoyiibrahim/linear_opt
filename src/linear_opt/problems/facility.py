@@ -107,7 +107,6 @@ class FacilityInstance:
         """Sum of demands."""
         return float(self.demand.sum())
 
-    # ----------------------------------------------------------------- factories
     @classmethod
     def from_orlib(cls, data: CapData, reference: float | None = None) -> FacilityInstance:
         """Wrap an OR-Library ``cap*`` instance."""
