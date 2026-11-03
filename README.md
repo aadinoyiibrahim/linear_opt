@@ -367,6 +367,7 @@ result = model.solve()
 result.solution.makespan, result.solution.critical  # 55.0, (op ids on the critical path)
 ```
 
+<!--
 ## 7. Interactive dashboard
 
 **Live:** [linearopt.streamlit.app](https://linearopt.streamlit.app/) (private while the repository is private: viewers need an invite).
@@ -405,6 +406,8 @@ The page logic is in `linear_opt/app/logic.py` and is unit-tested. The page
 itself is tested headlessly with Streamlit's `AppTest`, which solves every
 problem type, compares backends and runs a formulation study (`tests/test_app.py`).
 
+
+
 ### Deploy on Streamlit Community Cloud
 
 Community Cloud does not use Docker. When the repository has several dependency
@@ -432,6 +435,8 @@ uv lock && make requirements   # then commit uv.lock and requirements.txt
 
 Every push to `main` redeploys. Apps without traffic go to sleep, and the next
 visitor wakes them (about a minute). The theme comes from `.streamlit/config.toml`.
+
+-->
 
 ## 8. Try it: Python API
 
@@ -595,6 +600,8 @@ The suite checks each solver's answer independently: feasibility is recomputed
 from the raw data, strong duality and dual signs are verified, and property-based
 tests (Hypothesis) check invariances of optimal transport.
 
+<!--
+
 ## 12. CI and releases
 
 | Workflow | Trigger | What it does |
@@ -624,6 +631,8 @@ GHCR images are private at first; make the package public under
 
 `make help` lists the common tasks (`make lint`, `make cov`, `make docs`,
 `make app`, `make docker-app`, …).
+
+-->
 
 ## 13. Project layout
 
