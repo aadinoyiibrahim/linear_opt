@@ -302,7 +302,7 @@ result = model.solve(SolverSettings(mip_gap=0))
 result.solution.tour, result.solution.length, result.raw.extra  # lazy/user cut counts
 [f.n_subtours for f in result.solution.history]  # e.g. [4, 2, 1]
 ```
-
+<!--
 ## 6. Job-shop scheduling
 
 Each job visits machines in a fixed order. A machine processes one operation at
@@ -367,7 +367,7 @@ result = model.solve()
 result.solution.makespan, result.solution.critical  # 55.0, (op ids on the critical path)
 ```
 
-<!--
+
 ## 7. Interactive dashboard
 
 **Live:** [linearopt.streamlit.app](https://linearopt.streamlit.app/) (private while the repository is private: viewers need an invite).
