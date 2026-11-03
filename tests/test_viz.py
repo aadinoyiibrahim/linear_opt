@@ -10,16 +10,16 @@ pytest.importorskip("plotly")
 
 import plotly.io as pio
 
-from linear_opt.core.config import SolverSettings
-from linear_opt.core.result import ProgressPoint
-from linear_opt.core.study import run_variants
-from linear_opt.problems.facility import FacilityInstance, FacilityModel
-from linear_opt.problems.transport import TransportInstance, TransportModel
-from linear_opt.viz import facility as fviz
-from linear_opt.viz import mip
-from linear_opt.viz import transport as tviz
-from linear_opt.viz.report import fmt, model_subtitle, run_kpis, write_report
-from linear_opt.viz.theme import TEMPLATE_DARK, TEMPLATE_LIGHT
+from linearmilpopt.core.config import SolverSettings
+from linearmilpopt.core.result import ProgressPoint
+from linearmilpopt.core.study import run_variants
+from linearmilpopt.problems.facility import FacilityInstance, FacilityModel
+from linearmilpopt.problems.transport import TransportInstance, TransportModel
+from linearmilpopt.viz import facility as fviz
+from linearmilpopt.viz import mip
+from linearmilpopt.viz import transport as tviz
+from linearmilpopt.viz.report import fmt, model_subtitle, run_kpis, write_report
+from linearmilpopt.viz.theme import TEMPLATE_DARK, TEMPLATE_LIGHT
 
 from .test_transport import CITIES
 
@@ -145,8 +145,8 @@ def test_report_formatting_and_reference_tiles() -> None:
 
 # -------------------------------------------------------------------- routing
 def test_tsp_figures_include_subtour_replay() -> None:
-    from linear_opt.problems.tsp import TSPInstance, TSPModel
-    from linear_opt.viz import routing
+    from linearmilpopt.problems.tsp import TSPInstance, TSPModel
+    from linearmilpopt.viz import routing
 
     model = TSPModel(TSPInstance.random(40, seed=9), {"root_cuts": False, "warm_start": "none"})
     sol = model.solve(
@@ -162,8 +162,8 @@ def test_tsp_figures_include_subtour_replay() -> None:
 
 
 def test_cvrp_figures() -> None:
-    from linear_opt.problems.cvrp import CVRPInstance, CVRPModel
-    from linear_opt.viz import routing
+    from linearmilpopt.problems.cvrp import CVRPInstance, CVRPModel
+    from linearmilpopt.viz import routing
 
     model = CVRPModel(CVRPInstance.random(8, seed=1, capacity=50))
     sol = model.solve().solution
@@ -189,8 +189,8 @@ def _installed() -> set[str]:
 
 # ----------------------------------------------------------------- scheduling
 def test_gantt_figures_mark_the_critical_path() -> None:
-    from linear_opt.problems.jobshop import JobShopInstance, JobShopModel
-    from linear_opt.viz import scheduling
+    from linearmilpopt.problems.jobshop import JobShopInstance, JobShopModel
+    from linearmilpopt.viz import scheduling
 
     inst = JobShopInstance.random(4, 3, seed=1)
     sol = JobShopModel(inst).solve().solution

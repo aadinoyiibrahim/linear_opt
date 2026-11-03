@@ -7,6 +7,18 @@ section matching the tag as the GitHub release notes.
 
 ## [Unreleased]
 
+### Changed
+
+- **Renamed the project to LinearMilpOpt.** Breaking for existing installs:
+  - package and import name `linear_opt` / `linear-opt` -> `linearmilpopt`;
+  - command `linopt` -> `linearmilpopt`;
+  - environment variables `LINEAR_OPT_DATA_DIR` / `LINEAR_OPT_CONFIG_DIR` ->
+    `LINEARMILPOPT_DATA_DIR` / `LINEARMILPOPT_CONFIG_DIR`;
+  - download cache `~/.cache/linear_opt` -> `~/.cache/linearmilpopt`;
+  - repository `aadinoyiibrahim/LinearMilpOpt`, image
+    `ghcr.io/aadinoyiibrahim/linearmilpopt`, dashboard
+    `linearmilpopt.streamlit.app`.
+
 ## [0.1.0] - 2026-10-02
 
 ### Added
@@ -21,8 +33,8 @@ section matching the tag as the GitHub release notes.
   - CVRP (two-index with rounded capacity cuts, MTZ load; CVRPLIB A-n32-k5);
   - job-shop scheduling (disjunctive with tight/naive big-M, time-indexed; JSPLIB
     ft06, la01-la05).
-- Formulation studies (`linopt variants`): LP bound, root gap, runtime, nodes.
-- Interactive Plotly reports and a Streamlit dashboard (`linopt app`).
+- Formulation studies (`linearmilpopt variants`): LP bound, root gap, runtime, nodes.
+- Interactive Plotly reports and a Streamlit dashboard (`linearmilpopt app`).
 - TOML run configurations validated with pydantic; reproducible exports from
   the dashboard.
 - Data loaders with provenance (`sources.toml`): GeoNames, OSRM, OR-Library,
@@ -31,5 +43,5 @@ section matching the tag as the GitHub release notes.
   Python 3.11-3.13 and macOS, docs, Docker smoke tests), release workflow
   (GHCR multi-arch image, wheel/sdist), docs on GitHub Pages.
 
-[Unreleased]: https://github.com/aadinoyiibrahim/linear_opt/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/aadinoyiibrahim/linear_opt/releases/tag/v0.1.0
+[Unreleased]: https://github.com/aadinoyiibrahim/LinearMilpOpt/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/aadinoyiibrahim/LinearMilpOpt/releases/tag/v0.1.0

@@ -1,5 +1,5 @@
 [project]
-name = "linear-opt"
+name = "linearmilpopt"
 version = "1.0.0"
 description = "LP/MILP modelling with Gurobi and a HiGHS"
 readme = "README.md"
@@ -28,14 +28,14 @@ dependencies = [
 gurobi = ["gurobipy>=11.0"]   # pip wheel ships a size-restricted licence
 highs = ["highspy>=1.7"]
 viz = ["plotly>=5.20", "pandas>=2.1"]
-app = ["linear-opt[viz]", "streamlit>=1.35"]
-all = ["linear-opt[gurobi,highs,app]"]
+app = ["linearmilpopt[viz]", "streamlit>=1.35"]
+all = ["linearmilpopt[gurobi,highs,app]"]
 
 [project.scripts]
-linopt = "linear_opt.cli:app"
+linearmilpopt = "linearmilpopt.cli:app"
 
 [project.urls]
-Repository = "https://github.com/aadinoyiibrahim/linear_opt"
+Repository = "https://github.com/aadinoyiibrahim/LinearMilpOpt"
 
 [dependency-groups]
 dev = [
@@ -50,14 +50,14 @@ docs = [
     "mkdocs-material>=9.5",
     "mkdocstrings[python]>=0.25",
 ]
-deploy = ["linear-opt[app,highs,gurobi,viz]"]
+deploy = ["linearmilpopt[app,highs,gurobi,viz]"]
 
 [build-system]
 requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/linear_opt"]
+packages = ["src/linearmilpopt"]
 
 [tool.uv]
 default-groups = ["dev", "deploy"]
@@ -110,7 +110,7 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 # highspy's stubs leave the Highs() constructor unannotated.
-module = ["linear_opt.solvers.highs"]
+module = ["linearmilpopt.solvers.highs"]
 disallow_untyped_calls = false
 
 # ---------------------------------------------------------------- pytest
@@ -124,13 +124,13 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["linear_opt"]
+source = ["linearmilpopt"]
 branch = true
 # The Streamlit page runs inside Streamlit's script runner, which coverage cannot
 # attribute to the file. It is exercised end-to-end by tests/test_app.py
 # (AppTest: every problem type, all tabs); its logic lives in app/logic.py,
 # which is measured normally.
-omit = ["*/linear_opt/app/main.py"]
+omit = ["*/linearmilpopt/app/main.py"]
 
 [tool.coverage.report]
 show_missing = true

@@ -1,6 +1,6 @@
 # Common tasks. Run `make help` for the list.
 .DEFAULT_GOAL := help
-IMAGE ?= linear-opt
+IMAGE ?= linearmilpopt
 # Pinned runtime dependencies for platforms that only read requirements.txt.
 UV_EXPORT = uv export --frozen --all-extras --no-dev --no-hashes --no-editable --no-header --quiet
 
@@ -34,7 +34,7 @@ docs-serve: ## Serve the docs at http://127.0.0.1:8000
 	uv run mkdocs serve
 
 app: ## Start the dashboard at http://localhost:8501
-	uv run linopt app
+	uv run linearmilpopt app
 
 requirements: ## Regenerate requirements.txt (Streamlit Community Cloud) from uv.lock
 	$(UV_EXPORT) -o requirements.txt

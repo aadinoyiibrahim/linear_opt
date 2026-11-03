@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 # ---------------------------------------------------------------- runtime
 FROM python:${PYTHON_VERSION}-slim-bookworm AS runtime
-LABEL org.opencontainers.image.source="https://github.com/aadinoyiibrahim/linear_opt" \
+LABEL org.opencontainers.image.source="https://github.com/aadinoyiibrahim/LinearMilpOpt" \
       org.opencontainers.image.description="LP/MILP modelling with Gurobi and HiGHS: CLI and dashboard" \
       org.opencontainers.image.licenses="MIT"
 
@@ -33,13 +33,13 @@ COPY --chown=opt:opt .streamlit ./.streamlit
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
-    LINEAR_OPT_CONFIG_DIR=/app/configs \
-    LINEAR_OPT_DATA_DIR=/home/opt/.cache/linear_opt \
+    LINEARMILPOPT_CONFIG_DIR=/app/configs \
+    LINEARMILPOPT_DATA_DIR=/home/opt/.cache/linearmilpopt \
     STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 # Full Gurobi licence (optional): mount a licence file and point to it, e.g.
 #   -v $HOME/gurobi.lic:/opt/gurobi/gurobi.lic:ro -e GRB_LICENSE_FILE=/opt/gurobi/gurobi.lic
 # Without it gurobipy uses its size-restricted licence; HiGHS is always available.
 USER 1000:1000
 EXPOSE 8501
-ENTRYPOINT ["linopt"]
+ENTRYPOINT ["linearmilpopt"]
 CMD ["--help"]

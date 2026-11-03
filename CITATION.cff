@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "linear_opt: production-grade LP/MILP modelling with Gurobi and HiGHS"
+title: "LinearMilpOpt: production-grade LP/MILP modelling with Gurobi and HiGHS"
 type: software
 authors:
   - family-names: Ibrahim
@@ -9,7 +9,7 @@ authors:
 version: 0.1.0
 date-released: 2026-10-02
 license: MIT
-repository-code: "https://github.com/aadinoyiibrahim/linear_opt"
+repository-code: "https://github.com/aadinoyiibrahim/LinearMilpOpt"
 keywords:
   - linear programming
   - mixed-integer programming

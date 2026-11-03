@@ -4,10 +4,10 @@ import numpy as np
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from linear_opt.data.tsplib import tour_length
-from linear_opt.problems.cvrp import CVRPInstance
-from linear_opt.problems.heuristics import clarke_wright, nearest_neighbour, two_opt
-from linear_opt.problems.tsp import TSPInstance
+from linearmilpopt.data.tsplib import tour_length
+from linearmilpopt.problems.cvrp import CVRPInstance
+from linearmilpopt.problems.heuristics import clarke_wright, nearest_neighbour, two_opt
+from linearmilpopt.problems.tsp import TSPInstance
 
 
 @settings(max_examples=30, deadline=None)

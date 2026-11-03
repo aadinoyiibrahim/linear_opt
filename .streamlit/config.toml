@@ -1,4 +1,4 @@
-# Dashboard theme, matching the chart palette (linear_opt.viz.theme).
+# Dashboard theme, matching the chart palette (linearmilpopt.viz.theme).
 [theme]
 base = "light"
 primaryColor = "#2a78d6"

@@ -7,8 +7,8 @@ from typing import Any
 import numpy as np
 import pytest
 
-from linear_opt.data import distances, download, geonames
-from linear_opt.data.download import DownloadError, fetch
+from linearmilpopt.data import distances, download, geonames
+from linearmilpopt.data.download import DownloadError, fetch
 
 
 def _row(gid: int, name: str, fclass: str, fcode: str, country: str, pop: int) -> str:
@@ -45,7 +45,7 @@ def test_load_fixture_missing_gives_instructions(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
     monkeypatch.setattr(geonames, "fixture_path", lambda: tmp_path / "none.csv")
-    with pytest.raises(FileNotFoundError, match="linopt data cities"):
+    with pytest.raises(FileNotFoundError, match="linearmilpopt data cities"):
         geonames.load_fixture()
 
 

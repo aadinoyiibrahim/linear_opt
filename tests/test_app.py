@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from linear_opt.app import logic
-from linear_opt.core.config import ProblemKind, RunConfig, load_config
-from linear_opt.problems import registry
+from linearmilpopt.app import logic
+from linearmilpopt.core.config import ProblemKind, RunConfig, load_config
+from linearmilpopt.problems import registry
 
 from .conftest import CONFIG_DIR, INSTALLED
 
@@ -107,7 +107,7 @@ def test_licence_warning() -> None:
 
 
 # -------------------------------------------------------------------- page
-APP = Path(__file__).resolve().parents[1] / "src" / "linear_opt" / "app" / "main.py"
+APP = Path(__file__).resolve().parents[1] / "src" / "linearmilpopt" / "app" / "main.py"
 
 
 @pytest.fixture

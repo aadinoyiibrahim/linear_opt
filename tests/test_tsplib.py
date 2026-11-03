@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from linear_opt.data import tsplib
+from linearmilpopt.data import tsplib
 
 EUC = """NAME : toy5
 COMMENT : five points
@@ -135,7 +135,7 @@ def test_parse_cvrp_solution() -> None:
 def test_snapshot_uses_first_mirror_and_falls_back(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    from linear_opt.data.download import DownloadError
+    from linearmilpopt.data.download import DownloadError
 
     src = tmp_path / "src"
     src.mkdir()

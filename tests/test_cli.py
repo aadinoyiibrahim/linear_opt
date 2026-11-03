@@ -7,11 +7,11 @@ import pytest
 from rich.console import Console
 from typer.testing import CliRunner
 
-from linear_opt import __version__, cli
-from linear_opt.cli import app
-from linear_opt.core.backends import is_available
-from linear_opt.core.config import BackendName, load_config
-from linear_opt.data import geonames
+from linearmilpopt import __version__, cli
+from linearmilpopt.cli import app
+from linearmilpopt.core.backends import is_available
+from linearmilpopt.core.config import BackendName, load_config
+from linearmilpopt.data import geonames
 
 from .conftest import CONFIG_DIR, INSTALLED
 from .test_transport import CITIES
@@ -132,7 +132,7 @@ def test_variants_requires_a_model_with_variants() -> None:
 
 
 def test_data_orlib_cap(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
-    from linear_opt.data import orlib
+    from linearmilpopt.data import orlib
 
     def fake_snapshot(names: list[str], target: Path | None) -> list[Path]:
         assert target is not None
@@ -165,8 +165,8 @@ def test_tsp_variants() -> None:
 
 
 def test_data_tsplib_and_cvrplib(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
-    from linear_opt.data import tsplib
-    from linear_opt.data.download import DownloadError
+    from linearmilpopt.data import tsplib
+    from linearmilpopt.data.download import DownloadError
 
     monkeypatch.setattr(
         tsplib, "snapshot_tsplib", lambda name, out, from_dir=None: [tmp_path / f"{name}.tsp"]
@@ -200,7 +200,7 @@ def test_jobshop_solve_and_variants(tmp_path: Path) -> None:
 
 
 def test_data_jsplib(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
-    from linear_opt.data import jsplib
+    from linearmilpopt.data import jsplib
 
     monkeypatch.setattr(jsplib, "snapshot", lambda names, out, orlib_file=None: [tmp_path / "ft06"])
     result = runner.invoke(app, ["data", "jsplib", "ft06", "--out", str(tmp_path)])

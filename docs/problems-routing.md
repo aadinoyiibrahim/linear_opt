@@ -31,10 +31,10 @@ Nearest neighbour + 2-opt (TSP) and Clarke–Wright savings (CVRP) provide
 incumbents before the first node; tests check that each start is feasible for
 every formulation's constraint matrix.
 
-::: linear_opt.problems.tsp
+::: linearmilpopt.problems.tsp
 
-::: linear_opt.problems.cvrp
+::: linearmilpopt.problems.cvrp
 
-::: linear_opt.problems.heuristics
+::: linearmilpopt.problems.heuristics
 
-::: linear_opt.core.graph
+::: linearmilpopt.core.graph

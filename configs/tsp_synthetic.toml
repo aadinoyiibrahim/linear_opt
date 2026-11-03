@@ -1,5 +1,5 @@
 # Random 25-city TSP (rounded Euclidean distances); no download needed.
-# Compare formulations: uv run linopt variants configs/tsp_synthetic.toml
+# Compare formulations: uv run linearmilpopt variants configs/tsp_synthetic.toml
 [problem]
 kind = "tsp"
 name = "synthetic-25"

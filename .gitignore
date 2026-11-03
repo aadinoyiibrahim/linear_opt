@@ -20,7 +20,7 @@ site/
 *.mps
 *.sol
 # ... but benchmark solutions shipped with the package are data, not output
-!src/linear_opt/data/fixtures/**/*.sol
+!src/linearmilpopt/data/fixtures/**/*.sol
 *.ilp
 gurobi.log
 gurobi.lic

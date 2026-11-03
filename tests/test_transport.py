@@ -7,14 +7,14 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from linear_opt.core.config import BackendName, SolverSettings, load_config
-from linear_opt.core.duality import dual_sign_violations, duality_gap
-from linear_opt.core.result import SolveStatus
-from linear_opt.data import geonames
-from linear_opt.data.geonames import City
-from linear_opt.problems import registry
-from linear_opt.problems.transport import TransportInstance, TransportModel
-from linear_opt.solvers import SolverBackend
+from linearmilpopt.core.config import BackendName, SolverSettings, load_config
+from linearmilpopt.core.duality import dual_sign_violations, duality_gap
+from linearmilpopt.core.result import SolveStatus
+from linearmilpopt.data import geonames
+from linearmilpopt.data.geonames import City
+from linearmilpopt.problems import registry
+from linearmilpopt.problems.transport import TransportInstance, TransportModel
+from linearmilpopt.solvers import SolverBackend
 
 from .conftest import CONFIG_DIR, INSTALLED
 
@@ -176,7 +176,7 @@ def test_registry_reports_missing_city_snapshot(
 ) -> None:
     monkeypatch.setattr(geonames, "fixture_path", lambda: tmp_path / "missing.csv")
     cfg = load_config(CONFIG_DIR / "transport_de_cities.toml")
-    with pytest.raises(FileNotFoundError, match="linopt data cities"):
+    with pytest.raises(FileNotFoundError, match="linearmilpopt data cities"):
         registry.model_from_config(cfg)
 
 

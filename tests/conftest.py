@@ -7,9 +7,9 @@ from pathlib import Path
 import pytest
 from hypothesis import HealthCheck, settings
 
-from linear_opt.core.backends import is_available
-from linear_opt.core.config import BackendName
-from linear_opt.solvers import SolverBackend, create_backend
+from linearmilpopt.core.backends import is_available
+from linearmilpopt.core.config import BackendName
+from linearmilpopt.solvers import SolverBackend, create_backend
 
 # CI runs property tests derandomised (reproducible failures); locally they explore.
 settings.register_profile(
@@ -28,7 +28,7 @@ WriteToml = Callable[..., Path]
 @pytest.fixture(autouse=True)
 def _isolated_data_dir(tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch):  # type: ignore[no-untyped-def]
     """Never touch the real download cache from tests."""
-    monkeypatch.setenv("LINEAR_OPT_DATA_DIR", str(tmp_path_factory.mktemp("data")))
+    monkeypatch.setenv("LINEARMILPOPT_DATA_DIR", str(tmp_path_factory.mktemp("data")))
 
 
 @pytest.fixture(params=INSTALLED, ids=str)

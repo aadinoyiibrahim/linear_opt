@@ -1,4 +1,4 @@
-# linear_opt
+# LinearMilpOpt
 
 Production-grade LP/MILP modelling in Python: **Gurobi** as the primary solver,
 **HiGHS** as an open-source fallback, and real benchmark instances with known optima.
@@ -13,6 +13,6 @@ Production-grade LP/MILP modelling in Python: **Gurobi** as the primary solver,
 
 ```bash
 uv sync --extra highs          # or --extra gurobi, or --all-extras
-uv run linopt info
-uv run linopt validate configs/*.toml
+uv run linearmilpopt info
+uv run linearmilpopt validate configs/*.toml
 ```

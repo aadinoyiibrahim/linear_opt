@@ -84,21 +84,21 @@ jobs:
         with:
           context: .
           load: true
-          tags: linear-opt:ci
+          tags: linearmilpopt:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: CLI
         run: |
-          docker run --rm linear-opt:ci info
-          docker run --rm linear-opt:ci validate $(ls configs/*.toml | sed 's|^|/app/|')
+          docker run --rm linearmilpopt:ci info
+          docker run --rm linearmilpopt:ci validate $(ls configs/*.toml | sed 's|^|/app/|')
           # `solve` exits non-zero unless the solution is optimal-feasible and validated
-          docker run --rm linear-opt:ci solve configs/jobshop_ft06.toml --backend gurobi
-          docker run --rm linear-opt:ci solve configs/jobshop_ft06.toml --backend highs
-          docker run --rm linear-opt:ci solve configs/tsp_berlin52.toml
-          docker run --rm linear-opt:ci solve configs/facility_cap41.toml
+          docker run --rm linearmilpopt:ci solve configs/jobshop_ft06.toml --backend gurobi
+          docker run --rm linearmilpopt:ci solve configs/jobshop_ft06.toml --backend highs
+          docker run --rm linearmilpopt:ci solve configs/tsp_berlin52.toml
+          docker run --rm linearmilpopt:ci solve configs/facility_cap41.toml
       - name: Dashboard health check
         run: |
-          docker run -d --name app -p 8501:8501 linear-opt:ci app --headless --address 0.0.0.0
+          docker run -d --name app -p 8501:8501 linearmilpopt:ci app --headless --address 0.0.0.0
           for i in $(seq 1 30); do
             if curl -fsS http://localhost:8501/_stcore/health; then echo " healthy"; exit 0; fi
             sleep 2

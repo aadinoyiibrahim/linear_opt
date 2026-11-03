@@ -3,7 +3,7 @@
 Solves ``configs/transport_de_cities.toml`` and draws the shipments one route at
 a time, largest first, with the running cost; the last frame states the
 optimum and the independent feasibility check. Figures come from
-``linear_opt.viz.transport.flow_map``, so the GIF matches the dashboard.
+``linearmilpopt.viz.transport.flow_map``, so the GIF matches the dashboard.
 
     uv run --with kaleido python scripts/make_readme_gif.py
 
@@ -22,11 +22,11 @@ import plotly.graph_objects as go
 import plotly.io as pio
 from PIL import Image
 
-from linear_opt.core.config import load_config
-from linear_opt.problems.registry import model_from_config
-from linear_opt.problems.transport import TransportInstance, TransportSolution
-from linear_opt.viz.theme import palette
-from linear_opt.viz.transport import flow_map
+from linearmilpopt.core.config import load_config
+from linearmilpopt.problems.registry import model_from_config
+from linearmilpopt.problems.transport import TransportInstance, TransportSolution
+from linearmilpopt.viz.theme import palette
+from linearmilpopt.viz.transport import flow_map
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs" / "transport_de_cities.toml"

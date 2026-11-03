@@ -7,11 +7,11 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from linear_opt.core.config import SolverSettings
-from linear_opt.core.duality import dual_objective, dual_sign_violations
-from linear_opt.core.ir import LinearModel, ModelBuilder, ObjSense, Sense, VarType
-from linear_opt.core.result import Cut, SolveStatus
-from linear_opt.solvers import Capability, LicenseLimitError, SolverBackend
+from linearmilpopt.core.config import SolverSettings
+from linearmilpopt.core.duality import dual_objective, dual_sign_violations
+from linearmilpopt.core.ir import LinearModel, ModelBuilder, ObjSense, Sense, VarType
+from linearmilpopt.core.result import Cut, SolveStatus
+from linearmilpopt.solvers import Capability, LicenseLimitError, SolverBackend
 
 FAST = SolverSettings(time_limit=10)
 
@@ -154,24 +154,24 @@ def test_gurobi_iis_is_empty_for_feasible_model(gurobi: SolverBackend) -> None:
 
 
 def test_iis_unsupported_backend_raises() -> None:
-    from linear_opt.core.backends import is_available
-    from linear_opt.core.config import BackendName
+    from linearmilpopt.core.backends import is_available
+    from linearmilpopt.core.config import BackendName
 
     if not is_available(BackendName.HIGHS):
         pytest.skip("highspy not installed")
-    from linear_opt.solvers.highs import HighsBackend
+    from linearmilpopt.solvers.highs import HighsBackend
 
     with pytest.raises(NotImplementedError):
         HighsBackend().compute_iis(wyndor(), FAST)
 
 
 def test_highs_records_mip_progress() -> None:
-    from linear_opt.core.backends import is_available
-    from linear_opt.core.config import BackendName
+    from linearmilpopt.core.backends import is_available
+    from linearmilpopt.core.config import BackendName
 
     if not is_available(BackendName.HIGHS):
         pytest.skip("highspy not installed")
-    from linear_opt.solvers.highs import HighsBackend
+    from linearmilpopt.solvers.highs import HighsBackend
 
     raw = HighsBackend().solve(knapsack(), FAST)
     assert raw.progress

@@ -5,7 +5,7 @@ import pytest
 from hypothesis import given
 from hypothesis import strategies as st
 
-from linear_opt.core.ir import ModelBuilder, ObjSense, Sense, VarType, sum_over
+from linearmilpopt.core.ir import ModelBuilder, ObjSense, Sense, VarType, sum_over
 
 
 @given(m=st.integers(1, 6), n=st.integers(1, 6), seed=st.integers(0, 10_000))

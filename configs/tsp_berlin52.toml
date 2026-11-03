@@ -1,5 +1,5 @@
 # TSPLIB berlin52 (52 locations in Berlin; optimum 7542). Fetch data once:
-#   uv run linopt data tsplib berlin52
+#   uv run linearmilpopt data tsplib berlin52
 [problem]
 kind = "tsp"
 name = "berlin52"

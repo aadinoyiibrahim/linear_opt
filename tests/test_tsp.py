@@ -7,17 +7,17 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from linear_opt.core.config import SolverSettings, load_config
-from linear_opt.core.study import run_variants
-from linear_opt.data import tsplib
-from linear_opt.problems import registry
-from linear_opt.problems.tsp import (
+from linearmilpopt.core.config import SolverSettings, load_config
+from linearmilpopt.core.study import run_variants
+from linearmilpopt.data import tsplib
+from linearmilpopt.problems import registry
+from linearmilpopt.problems.tsp import (
     TSPInstance,
     TSPModel,
     tour_from_edges,
     tour_from_successors,
 )
-from linear_opt.solvers import SolverBackend
+from linearmilpopt.solvers import SolverBackend
 
 from .conftest import CONFIG_DIR, INSTALLED, satisfies
 from .test_transport import CITIES
@@ -132,7 +132,7 @@ def _has(name: str) -> bool:
 def test_published_optimum_matches_optimal_tour(name: str) -> None:
     """Checks our distance functions (EUC_2D, ATT, GEO, EXPLICIT) against TSPLIB."""
     if not _has(name):
-        pytest.skip(f"run `linopt data tsplib {name}` first")
+        pytest.skip(f"run `linearmilpopt data tsplib {name}` first")
     if not (tsplib.fixture_dir("tsplib") / f"{name}.opt.tour").exists():
         pytest.skip(f"TSPLIB publishes no optimal tour for {name} (solved test covers it)")
     problem, optimum, tour = tsplib.load_tsplib(name)
@@ -146,14 +146,14 @@ def test_instances_without_published_tour_reach_the_published_optimum(
 ) -> None:
     """GEO and EXPLICIT instances: compare the solved optimum with TSPLIB's table."""
     if not _has(name):
-        pytest.skip(f"run `linopt data tsplib {name}` first")
+        pytest.skip(f"run `linearmilpopt data tsplib {name}` first")
     problem, optimum, tour = tsplib.load_tsplib(name)
     result = TSPModel(TSPInstance.from_tsplib(problem, optimum, tour)).solve(EXACT, backend=backend)
     assert result.ok
     assert result.raw.objective == pytest.approx(optimum)
 
 
-@pytest.mark.skipif(not _has("berlin52"), reason="run `linopt data tsplib berlin52` first")
+@pytest.mark.skipif(not _has("berlin52"), reason="run `linearmilpopt data tsplib berlin52` first")
 def test_berlin52_is_solved_to_the_published_optimum(backend: SolverBackend) -> None:
     model = registry.model_from_config(load_config(CONFIG_DIR / "tsp_berlin52.toml"))
     result = model.solve(SolverSettings(time_limit=300, mip_gap=0.0), backend=backend)
@@ -170,7 +170,7 @@ def test_reference_comes_from_instance(tmp_path: Path) -> None:
 def test_large_tsplib_instances(name: str, gurobi: SolverBackend) -> None:
     """Above the restricted licence (2415-4950 edge variables): needs a full Gurobi licence."""
     if not _has(name):
-        pytest.skip(f"run `linopt data tsplib {name}` first")
+        pytest.skip(f"run `linearmilpopt data tsplib {name}` first")
     problem, optimum, tour = tsplib.load_tsplib(name)
     model = TSPModel(TSPInstance.from_tsplib(problem, optimum, tour))
     result = model.solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=gurobi)

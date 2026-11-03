@@ -27,6 +27,6 @@ optimum; strong/weak equality of the integer optimum and dominance of the LP
 bound; single-sourcing cost ≥ split cost; feasibility of the greedy start; and an
 independent re-check of every solution against the raw data.
 
-::: linear_opt.problems.facility
+::: linearmilpopt.problems.facility
 
-::: linear_opt.core.study
+::: linearmilpopt.core.study

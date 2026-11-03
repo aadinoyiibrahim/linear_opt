@@ -2,11 +2,11 @@
 
 # LinearMilpOpt: Linear and mixed-integer optimization Toolkit in Python
 
-[![CI](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml/badge.svg)](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/ci.yml)
-[![Docs](https://github.com/aadinoyiibrahim/linear_opt/actions/workflows/docs.yml/badge.svg)](https://aadinoyiibrahim.github.io/linear_opt/)
+[![CI](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/ci.yml/badge.svg)](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/ci.yml)
+[![Docs](https://github.com/aadinoyiibrahim/LinearMilpOpt/actions/workflows/docs.yml/badge.svg)](https://aadinoyiibrahim.github.io/LinearMilpOpt/)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-[![Live demo](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://linearopt.streamlit.app/)
+[![Live demo](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://linearmilpopt.streamlit.app/)
 
 - **Gurobi** is the primary solver;
 - **HiGHS** is an open-source fallback,
@@ -18,7 +18,7 @@ so everything also runs without a commercial licence. Models are solved on real 
 </p>
 
 
-**▶ Live app: [linearopt.streamlit.app](https://linearopt.streamlit.app)**
+**▶ Live app: [linearmilpopt.streamlit.app](https://linearmilpopt.streamlit.app)**
 
 | Problem | Class | Data |
 |---|---|---|
@@ -33,10 +33,10 @@ so everything also runs without a commercial licence. Models are solved on real 
 
 ```
 uv pip install pylint
-uv run pyreverse -o png -p linear_opt src/linear_opt/
+uv run pyreverse -o png -p linearmilpopt src/linearmilpopt/
 ```
 
-![Alternative Text](./packages_linear_opt.png)
+![Alternative Text](./packages_linearmilpopt.png)
 
 -->
 
@@ -44,7 +44,7 @@ uv run pyreverse -o png -p linear_opt src/linear_opt/
 ## 0. Project layout
 
 ```
-src/linear_opt/
+src/linearmilpopt/
   core/       config (TOML), ir (ModelBuilder), model (OptimizationModel), result,
               duality, study (formulation comparison), graph (edges, min cut)
   solvers/    base (interface, row generation), gurobi (matrix API, lazy + user cuts,
@@ -54,7 +54,7 @@ src/linear_opt/
               sources.toml
   viz/        theme, transport, facility, routing, scheduling (Gantt), mip, HTML report
   app/        Streamlit dashboard: logic.py (tested), main.py (page)
-  cli.py      `linopt` command
+  cli.py      `linearmilpopt` command
 configs/      one TOML per run
 tests/        pytest + hypothesis
 ```
@@ -64,7 +64,7 @@ tests/        pytest + hypothesis
 Requires Python ≥ 3.11 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/aadinoyiibrahim/linear_opt.git && cd linear_opt
+git clone https://github.com/aadinoyiibrahim/LinearMilpOpt.git && cd LinearMilpOpt
 uv sync --all-extras          # Gurobi + HiGHS + Plotly + Streamlit + dev tools
 # or pick what you need:
 uv sync --extra highs --extra viz      # open-source only
@@ -76,7 +76,7 @@ constraints). With an academic licence on your machine, Gurobi picks it up
 automatically (or set `GRB_LICENSE_FILE`).
 
 ```bash
-uv run linopt info            # version + installed backends
+uv run linearmilpopt info            # version + installed backends
 ```
 
 ## 2. Try it: command line
@@ -85,32 +85,32 @@ Every run is described by one TOML file in [`configs/`](configs/).
 
 ```bash
 # Validate configs without solving
-uv run linopt validate configs/*.toml
+uv run linearmilpopt validate configs/*.toml
 
 # Solve (auto backend: Gurobi if installed, else HiGHS)
-uv run linopt solve configs/transport_synthetic.toml
+uv run linearmilpopt solve configs/transport_synthetic.toml
 
 # Force a backend, change the time limit, show the solver log
-uv run linopt solve configs/transport_synthetic.toml --backend highs --time-limit 10 -v
+uv run linearmilpopt solve configs/transport_synthetic.toml --backend highs --time-limit 10 -v
 
 # Interactive HTML report (map, depot utilisation, shadow prices, transport plan)
-uv run linopt solve configs/transport_synthetic.toml --html out/report.html
+uv run linearmilpopt solve configs/transport_synthetic.toml --html out/report.html
 open out/report.html                     # macOS
 
 # Machine-readable summary, and the model as an .lp file
-uv run linopt solve configs/transport_synthetic.toml --json out/summary.json --export out/model.lp
+uv run linearmilpopt solve configs/transport_synthetic.toml --json out/summary.json --export out/model.lp
 
 # Same model on every installed backend, side by side
-uv run linopt compare configs/transport_synthetic.toml
+uv run linearmilpopt compare configs/transport_synthetic.toml
 
 # Which backend would this config use here?
-uv run linopt backend configs/transport_synthetic.toml
+uv run linearmilpopt backend configs/transport_synthetic.toml
 
 # LP relaxation only (drop integrality) - e.g. to see how tight a MIP formulation is
-uv run linopt solve configs/facility_synthetic.toml --relax
+uv run linearmilpopt solve configs/facility_synthetic.toml --relax
 
 # Compare formulations of a model: LP bound, root gap, runtime, nodes (+ HTML report)
-uv run linopt variants configs/facility_synthetic.toml --html out/variants.html
+uv run linearmilpopt variants configs/facility_synthetic.toml --html out/variants.html
 ```
 
 Exit codes: `0` solved and validated, `1` no valid solution, `2` bad config or
@@ -127,8 +127,8 @@ The transport model can run on the largest German cities from
 Freeze a snapshot once so that runs are reproducible (GeoNames updates daily):
 
 ```bash
-uv run linopt data cities                 # writes src/linear_opt/data/fixtures/de_cities.csv
-uv run linopt solve configs/transport_de_cities.toml --html out/de.html
+uv run linearmilpopt data cities                 # writes src/linearmilpopt/data/fixtures/de_cities.csv
+uv run linearmilpopt solve configs/transport_de_cities.toml --html out/de.html
 ```
 
 Options live in [`configs/transport_de_cities.toml`](configs/transport_de_cities.toml):
@@ -147,7 +147,7 @@ cost = "haversine"  # or "road": driving distances from OSRM (OpenStreetMap, ODb
 ```
 
 `cost = "road"` makes one request to the public OSRM demo server and caches the result. Please respect its usage policy. Downloads are cached in
-`$LINEAR_OPT_DATA_DIR` (default `~/.cache/linear_opt`).
+`$LINEARMILPOPT_DATA_DIR` (default `~/.cache/linearmilpopt`).
 
 ## 4. Facility location
 
@@ -165,11 +165,11 @@ s.t. Σ_i x_ij = 1                 (every customer fully served)
 ### OR-Library benchmarks with known optima
 
 ```bash
-uv run linopt data orlib-cap                 # cap41 + capopt.txt (published optima) into the package
-uv run linopt data orlib-cap cap131 cap134   # specific instances
-uv run linopt data orlib-cap --all           # all 37 (cap41 ... cap134)
+uv run linearmilpopt data orlib-cap                 # cap41 + capopt.txt (published optima) into the package
+uv run linearmilpopt data orlib-cap cap131 cap134   # specific instances
+uv run linearmilpopt data orlib-cap --all           # all 37 (cap41 ... cap134)
 
-uv run linopt solve configs/facility_cap41.toml --html out/cap41.html
+uv run linearmilpopt solve configs/facility_cap41.toml --html out/cap41.html
 ```
 
 The summary prints the **known optimum** and the relative **deviation**; the test
@@ -181,8 +181,8 @@ variables) need a full licence or `--backend highs`, and are tested with
 ### Strong vs weak: a formulation study
 
 ```bash
-uv run linopt variants configs/facility_cap41.toml            # modern solver defaults
-uv run linopt variants configs/facility_cap41_textbook.toml   # cuts + presolve off
+uv run linearmilpopt variants configs/facility_cap41.toml            # modern solver defaults
+uv run linearmilpopt variants configs/facility_cap41_textbook.toml   # cuts + presolve off
 ```
 
 Both formulations have the same integer optimum, but the strong one's LP
@@ -194,7 +194,7 @@ parameters, so the effect of the formulation shows in nodes and runtime.
 ### German cities (real geography, stylised costs)
 
 ```bash
-uv run linopt solve configs/facility_de_cities.toml --html out/warehouses.html
+uv run linearmilpopt solve configs/facility_de_cities.toml --html out/warehouses.html
 ```
 
 The 60 largest cities are customers; the 20 largest are candidate sites whose
@@ -214,10 +214,10 @@ names the customer and capacity rows in conflict.
 ### Python
 
 ```python
-from linear_opt.core.config import SolverSettings
-from linear_opt.core.study import run_variants
-from linear_opt.data import orlib
-from linear_opt.problems.facility import FacilityInstance, FacilityModel
+from linearmilpopt.core.config import SolverSettings
+from linearmilpopt.core.study import run_variants
+from linearmilpopt.data import orlib
+from linearmilpopt.problems.facility import FacilityInstance, FacilityModel
 
 data = FacilityInstance.from_orlib(orlib.load_cap("cap41"), orlib.known_optimum("cap41"))
 result = FacilityModel(data, {"formulation": "strong"}).solve(SolverSettings(mip_gap=0))
@@ -244,10 +244,10 @@ components, and fractional points get a Stoer–Wagner minimum cut, so the same
 separator serves as a lazy-constraint oracle and a cutting-plane routine.
 
 ```bash
-uv run linopt data tsplib berlin52                     # .tsp + optimal tour into the package
-uv run linopt solve configs/tsp_berlin52.toml --html out/berlin52.html   # optimum 7542
-uv run linopt solve configs/tsp_de_cities.toml --html out/de_tour.html   # 45 German cities
-uv run linopt variants configs/tsp_synthetic.toml --html out/tsp_variants.html
+uv run linearmilpopt data tsplib berlin52                     # .tsp + optimal tour into the package
+uv run linearmilpopt solve configs/tsp_berlin52.toml --html out/berlin52.html   # optimum 7542
+uv run linearmilpopt solve configs/tsp_de_cities.toml --html out/de_tour.html   # 45 German cities
+uv run linearmilpopt variants configs/tsp_synthetic.toml --html out/tsp_variants.html
 ```
 
 The TSP report includes a **subtour replay**, a slider that steps through the
@@ -271,7 +271,7 @@ How each solver handles the lazy cuts:
   generation**. On TSPs the root loop usually leaves nothing for row generation.
 
 The TSPLIB parser supports `EUC_2D`, `CEIL_2D`, `ATT`, `GEO` and explicit matrices,
-with TSPLIB's integer rounding. `uv run linopt data tsplib ulysses16 att48 gr17`
+with TSPLIB's integer rounding. `uv run linearmilpopt data tsplib ulysses16 att48 gr17`
 fetches instances that exercise each rule, and the tests compare each optimal
 tour's length with the published optimum.
 
@@ -283,18 +283,18 @@ tour's length with the published optimum.
 | `"mtz"` | directed arcs + load variables `uᵢ − uⱼ + Q·xᵢⱼ ≤ Q − dⱼ` |
 
 ```bash
-uv run linopt data cvrplib A-n32-k5        # .vrp + .sol (optimal routes, cost 784)
-uv run linopt solve configs/cvrp_a_n32_k5.toml --html out/a32.html
-uv run linopt solve configs/cvrp_de_cities.toml --html out/deliveries.html   # depot Kassel
-uv run linopt variants configs/cvrp_synthetic.toml
+uv run linearmilpopt data cvrplib A-n32-k5        # .vrp + .sol (optimal routes, cost 784)
+uv run linearmilpopt solve configs/cvrp_a_n32_k5.toml --html out/a32.html
+uv run linearmilpopt solve configs/cvrp_de_cities.toml --html out/deliveries.html   # depot Kassel
+uv run linearmilpopt variants configs/cvrp_synthetic.toml
 ```
 
 The downloader looks the instance up on
 [CVRPLIB's instance list](https://galgos.inf.puc-rio.br/cvrplib/en/instances)
 (downloads there use numeric ids). If that fails, download `A-n32-k5.vrp` and
 `A-n32-k5.sol` by hand and run
-`uv run linopt data cvrplib A-n32-k5 --from-dir ~/Downloads`
-(`linopt data tsplib` accepts `--from-dir` too). TSPLIB files come from an
+`uv run linearmilpopt data cvrplib A-n32-k5 --from-dir ~/Downloads`
+(`linearmilpopt data tsplib` accepts `--from-dir` too). TSPLIB files come from an
 MIT-licensed GitHub mirror first, then from the original Heidelberg server.
 
 **Which solver to use for CVRP.** The capacity cuts are only *heuristically*
@@ -309,9 +309,9 @@ Options: `fleet = "at_most" | "exact"` (use exactly `K` vehicles),
 ### Python
 
 ```python
-from linear_opt.core.config import SolverSettings
-from linear_opt.data import tsplib
-from linear_opt.problems.tsp import TSPInstance, TSPModel
+from linearmilpopt.core.config import SolverSettings
+from linearmilpopt.data import tsplib
+from linearmilpopt.problems.tsp import TSPInstance, TSPModel
 
 problem, optimum, tour = tsplib.load_tsplib("berlin52")
 model = TSPModel(TSPInstance.from_tsplib(problem, optimum, tour), {"formulation": "dfj"})
@@ -337,11 +337,11 @@ textbook version). Both give the same optimum, but the naive M needs more
 branch-and-bound nodes and is prone to tolerance-level errors.
 
 ```bash
-uv run linopt data jsplib                     # ft06, la01-la05 + published optima/bounds
-uv run linopt data jsplib ft10 orb01 abz5     # more instances (162 available)
-uv run linopt solve configs/jobshop_ft06.toml --html out/ft06.html     # optimum 55
-uv run linopt solve configs/jobshop_la01.toml --html out/la01.html     # optimum 666
-uv run linopt variants configs/jobshop_synthetic.toml --html out/js_variants.html
+uv run linearmilpopt data jsplib                     # ft06, la01-la05 + published optima/bounds
+uv run linearmilpopt data jsplib ft10 orb01 abz5     # more instances (162 available)
+uv run linearmilpopt solve configs/jobshop_ft06.toml --html out/ft06.html     # optimum 55
+uv run linearmilpopt solve configs/jobshop_la01.toml --html out/la01.html     # optimum 666
+uv run linearmilpopt variants configs/jobshop_synthetic.toml --html out/js_variants.html
 ```
 
 The report shows:
@@ -372,11 +372,11 @@ The report shows:
 Options (`[model]`): `formulation`, `big_m = "tight" | "naive"`,
 `warm_start = "giffler_thompson" | "none"`. Instances can also come from a
 file in standard format (`[instance] path = "my.jsp"`) or from OR-Library's
-`jobshop1.txt` (`uv run linopt data jsplib ft06 --orlib-file jobshop1.txt`).
+`jobshop1.txt` (`uv run linearmilpopt data jsplib ft06 --orlib-file jobshop1.txt`).
 
 ```python
-from linear_opt.data import jsplib
-from linear_opt.problems.jobshop import JobShopInstance, JobShopModel
+from linearmilpopt.data import jsplib
+from linearmilpopt.problems.jobshop import JobShopInstance, JobShopModel
 
 data, ref = jsplib.load_jsp("ft06")
 model = JobShopModel(JobShopInstance.from_data(data, ref), {"formulation": "disjunctive"})
@@ -387,12 +387,12 @@ result.solution.makespan, result.solution.critical  # 55.0, (op ids on the criti
 
 ## 7. Interactive dashboard
 
-**Live:** [linearopt.streamlit.app](https://linearopt.streamlit.app/) (private while the repository is private: viewers need an invite).
+**Live:** [linearmilpopt.streamlit.app](https://linearmilpopt.streamlit.app/) (private while the repository is private: viewers need an invite).
 
 ```bash
 uv sync --all-extras          # or: uv sync --extra app --extra highs
-uv run linopt app             # opens http://localhost:8501
-uv run linopt app --port 8600 --headless
+uv run linearmilpopt app             # opens http://localhost:8501
+uv run linearmilpopt app --port 8600 --headless
 ```
 
 The **sidebar** has:
@@ -411,15 +411,15 @@ so the CLI and the dashboard can't drift apart.
 | **Solution** | Solve, KPIs, published optimum and deviation, a validation badge (re-checked against the raw data), every figure from the HTML report, and downloads (HTML report, JSON summary) |
 | **Compare backends** | Same model on Gurobi and HiGHS, side by side, with an agreement check |
 | **Formulations** | The `variants` study, live: LP bound, root gap, runtime, nodes, plus the charts |
-| **Model & export** | Variable/constraint blocks, the model as an `.lp` file, and the current settings as a **TOML config** that `linopt solve` reproduces exactly |
+| **Model & export** | Variable/constraint blocks, the model as an `.lp` file, and the current settings as a **TOML config** that `linearmilpopt solve` reproduces exactly |
 
 Model sizes are shown before solving. A warning appears when a model would
 exceed the restricted Gurobi licence (~2,000 variables or constraints); switch
 the backend to HiGHS in *Solver*. Results stay visible while you change
 settings, marked as stale until you solve again. Presets are read from
-`./configs`, or from `$LINEAR_OPT_CONFIG_DIR` if set.
+`./configs`, or from `$LINEARMILPOPT_CONFIG_DIR` if set.
 
-The page logic is in `linear_opt/app/logic.py` and is unit-tested. The page
+The page logic is in `linearmilpopt/app/logic.py` and is unit-tested. The page
 itself is tested headlessly with Streamlit's `AppTest`, which solves every
 problem type, compares backends and runs a formulation study (`tests/test_app.py`).
 
@@ -440,8 +440,8 @@ uv lock && make requirements   # then commit uv.lock and requirements.txt
 1. Sign in at [share.streamlit.io](https://share.streamlit.io) with GitHub. For a
    private repository, allow Streamlit to access private repositories.
 2. **Create app** (from an existing GitHub repo): repository
-   `aadinoyiibrahim/linear_opt`, branch `main`, main file
-   `src/linear_opt/app/main.py`, and a subdomain.
+   `aadinoyiibrahim/LinearMilpOpt`, branch `main`, main file
+   `src/linearmilpopt/app/main.py`, and a subdomain.
 3. **Advanced settings**: Python **3.12**. No secrets are needed: Gurobi runs on
    its bundled restricted licence and HiGHS handles larger models. Do not store
    a WLS or academic Gurobi licence in a shared app's secrets.
@@ -460,8 +460,8 @@ visitor wakes them (about a minute). The theme comes from `.streamlit/config.tom
 ### Solve a transport problem and read the duals
 
 ```python
-from linear_opt.core.config import SolverSettings
-from linear_opt.problems.transport import TransportInstance, TransportModel
+from linearmilpopt.core.config import SolverSettings
+from linearmilpopt.problems.transport import TransportInstance, TransportModel
 
 inst = TransportInstance.random(n_sources=5, n_sinks=12, seed=1)
 model = TransportModel(inst, {"supply_constraint": "le"})
@@ -478,7 +478,7 @@ result.violations  # () -> independently re-checked feasible
 ### Plot it
 
 ```python
-from linear_opt.viz.transport import flow_map, shadow_prices
+from linearmilpopt.viz.transport import flow_map, shadow_prices
 
 flow_map(inst, sol).show()
 shadow_prices(inst, sol, dark=True).show()
@@ -490,10 +490,10 @@ Models are written once against a small block-based builder and run on any backe
 
 ```python
 import numpy as np
-from linear_opt.core.ir import ModelBuilder, ObjSense, Sense
-from linear_opt.core.duality import duality_gap
-from linear_opt.solvers import create_backend
-from linear_opt.core.config import BackendName, SolverSettings
+from linearmilpopt.core.ir import ModelBuilder, ObjSense, Sense
+from linearmilpopt.core.duality import duality_gap
+from linearmilpopt.solvers import create_backend
+from linearmilpopt.core.config import BackendName, SolverSettings
 
 # max 3x + 5y  s.t.  x <= 4,  2y <= 12,  3x + 2y <= 18
 b = ModelBuilder("wyndor", ObjSense.MAXIMIZE)
@@ -509,7 +509,7 @@ duality_gap(lm, raw.objective, raw.duals)  # ~1e-16: optimality certificate
 ### Lazy constraints (same code for both solvers)
 
 ```python
-from linear_opt.core.result import Cut
+from linearmilpopt.core.result import Cut
 
 
 def oracle(x):  # called on each integer-feasible solution
@@ -563,16 +563,16 @@ One image serves the CLI and the dashboard. It contains Gurobi (restricted
 licence), HiGHS, the packaged benchmark data and the presets from `configs/`.
 
 ```bash
-docker build -t linear-opt .            # or: make docker
+docker build -t linearmilpopt .            # or: make docker
 
 # CLI
-docker run --rm linear-opt info
-docker run --rm linear-opt solve configs/jobshop_ft06.toml
-mkdir -p out && docker run --rm -v "$PWD/out:/app/out" linear-opt \
+docker run --rm linearmilpopt info
+docker run --rm linearmilpopt solve configs/jobshop_ft06.toml
+mkdir -p out && docker run --rm -v "$PWD/out:/app/out" linearmilpopt \
   solve configs/tsp_berlin52.toml --html out/berlin52.html
 
 # Dashboard on http://localhost:8501
-docker run --rm -p 8501:8501 linear-opt app --headless --address 0.0.0.0
+docker run --rm -p 8501:8501 linearmilpopt app --headless --address 0.0.0.0
 ```
 
 With **docker compose**:
@@ -587,11 +587,11 @@ docker compose run --rm cli solve configs/facility_cap41.toml --html out/cap41.h
 
 ```bash
 docker run --rm -v "$HOME/gurobi.lic:/opt/gurobi/gurobi.lic:ro" \
-  -e GRB_LICENSE_FILE=/opt/gurobi/gurobi.lic linear-opt solve configs/...
+  -e GRB_LICENSE_FILE=/opt/gurobi/gurobi.lic linearmilpopt solve configs/...
 ```
 
 The image runs as an unprivileged user (uid 1000). Tagged releases publish
-`ghcr.io/aadinoyiibrahim/linear_opt` for `linux/amd64` and `linux/arm64`.
+`ghcr.io/aadinoyiibrahim/linearmilpopt` for `linux/amd64` and `linux/arm64`.
 
 ## 11. Tests and quality checks
 
@@ -644,7 +644,7 @@ git tag v0.1.0 && git push origin v0.1.0
 
 One-time repository settings: **Settings → Pages → Source: `gh-pages` branch**.
 GHCR images are private at first; make the package public under
-**Packages → linear_opt → Package settings** if you want anonymous pulls.
+**Packages → linearmilpopt → Package settings** if you want anonymous pulls.
 
 `make help` lists the common tasks (`make lint`, `make cov`, `make docs`,
 `make app`, `make docker-app`, …).
@@ -660,5 +660,5 @@ If you use this software in academic work, please cite it using
 ## Data and licences
 
 Code: MIT. Dataset provenance, licences and citations:
-[`src/linear_opt/data/sources.toml`](src/linear_opt/data/sources.toml).
+[`src/linearmilpopt/data/sources.toml`](src/linearmilpopt/data/sources.toml).
 City data © GeoNames (CC BY 4.0); road distances © OpenStreetMap contributors (ODbL).

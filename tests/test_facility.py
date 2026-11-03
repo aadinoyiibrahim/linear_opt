@@ -7,18 +7,18 @@ import pytest
 from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
-from linear_opt.core.config import SolverSettings, load_config
-from linear_opt.core.result import SolveStatus
-from linear_opt.core.study import run_variants
-from linear_opt.data import orlib
-from linear_opt.problems import registry
-from linear_opt.problems.facility import (
+from linearmilpopt.core.config import SolverSettings, load_config
+from linearmilpopt.core.result import SolveStatus
+from linearmilpopt.core.study import run_variants
+from linearmilpopt.data import orlib
+from linearmilpopt.problems import registry
+from linearmilpopt.problems.facility import (
     FacilityInstance,
     FacilityModel,
     FacilitySolution,
     greedy_solution,
 )
-from linear_opt.solvers import SolverBackend
+from linearmilpopt.solvers import SolverBackend
 
 from .conftest import CONFIG_DIR, INSTALLED
 from .test_transport import CITIES
@@ -168,7 +168,7 @@ def test_registry_builds_synthetic_facility() -> None:
 
 
 # ---------------------------------------------------------- real benchmarks
-@pytest.mark.skipif(not HAS_CAP41, reason="run `linopt data orlib-cap` first")
+@pytest.mark.skipif(not HAS_CAP41, reason="run `linearmilpopt data orlib-cap` first")
 def test_cap41_matches_published_optimum(backend: SolverBackend) -> None:
     model = registry.model_from_config(load_config(CONFIG_DIR / "facility_cap41.toml"))
     result = model.solve(EXACT, backend=backend)
@@ -181,7 +181,7 @@ def test_cap41_matches_published_optimum(backend: SolverBackend) -> None:
 @pytest.mark.parametrize("name", ["cap131", "cap134"])
 def test_large_cap_instances(name: str, backend: SolverBackend) -> None:
     if not (orlib.fixture_dir() / f"{name}.txt").exists():
-        pytest.skip(f"run `linopt data orlib-cap {name}` first")
+        pytest.skip(f"run `linearmilpopt data orlib-cap {name}` first")
     data = FacilityInstance.from_orlib(orlib.load_cap(name), orlib.known_optimum(name))
     result = FacilityModel(data).solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=backend)
     assert result.raw.objective == pytest.approx(data.reference, rel=1e-7)

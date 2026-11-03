@@ -1,5 +1,5 @@
 # CVRPLIB A-n32-k5 (Augerat; 31 customers, Q = 100, 5 vehicles; optimum 784).
-# Fetch data once:  uv run linopt data cvrplib A-n32-k5
+# Fetch data once:  uv run linearmilpopt data cvrplib A-n32-k5
 [problem]
 kind = "cvrp"
 name = "A-n32-k5"

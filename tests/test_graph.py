@@ -7,7 +7,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from linear_opt.core.graph import EdgeIndex, components, global_min_cut, mask, min_cut_phases
+from linearmilpopt.core.graph import EdgeIndex, components, global_min_cut, mask, min_cut_phases
 
 
 def test_edge_index_basics() -> None:

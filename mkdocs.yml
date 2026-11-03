@@ -1,6 +1,6 @@
-site_name: linear_opt
+site_name: LinearMilpOpt
 site_description: LP/MILP modelling with Gurobi and HiGHS on real benchmark data
-repo_url: https://github.com/aadinoyiibrahim/linear_opt
+repo_url: https://github.com/aadinoyiibrahim/LinearMilpOpt
 theme:
   name: material
   features: [navigation.sections, content.code.copy]

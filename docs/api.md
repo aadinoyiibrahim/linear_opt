@@ -2,22 +2,22 @@
 
 ## Intermediate representation
 
-::: linear_opt.core.ir
+::: linearmilpopt.core.ir
 
 ## Models and results
 
-::: linear_opt.core.model
+::: linearmilpopt.core.model
 
-::: linear_opt.core.result
+::: linearmilpopt.core.result
 
-::: linear_opt.core.duality
+::: linearmilpopt.core.duality
 
 ## Solver backends
 
-::: linear_opt.solvers.base
+::: linearmilpopt.solvers.base
 
-::: linear_opt.solvers.gurobi
+::: linearmilpopt.solvers.gurobi
 
-::: linear_opt.solvers.highs
+::: linearmilpopt.solvers.highs
 
-::: linear_opt.core.backends
+::: linearmilpopt.core.backends

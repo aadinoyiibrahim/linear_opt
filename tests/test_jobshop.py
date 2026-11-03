@@ -8,11 +8,11 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from linear_opt.core.config import SolverSettings, load_config
-from linear_opt.core.study import run_variants
-from linear_opt.data import jsplib
-from linear_opt.problems import registry
-from linear_opt.problems.jobshop import (
+from linearmilpopt.core.config import SolverSettings, load_config
+from linearmilpopt.core.study import run_variants
+from linearmilpopt.data import jsplib
+from linearmilpopt.problems import registry
+from linearmilpopt.problems.jobshop import (
     JobShopInstance,
     JobShopModel,
     best_heuristic,
@@ -22,7 +22,7 @@ from linear_opt.problems.jobshop import (
     machine_sequences,
     schedule_violations,
 )
-from linear_opt.solvers import SolverBackend
+from linearmilpopt.solvers import SolverBackend
 
 from .conftest import CONFIG_DIR, satisfies
 
@@ -227,7 +227,7 @@ def _has(name: str) -> bool:
     ).exists()
 
 
-@pytest.mark.skipif(not _has("ft06"), reason="run `linopt data jsplib` first")
+@pytest.mark.skipif(not _has("ft06"), reason="run `linearmilpopt data jsplib` first")
 @pytest.mark.parametrize("options", FORMS, ids=lambda o: "-".join(o.values()))
 def test_ft06_reaches_the_published_optimum(
     backend: SolverBackend, options: dict[str, str]
@@ -239,7 +239,7 @@ def test_ft06_reaches_the_published_optimum(
     assert result.raw.objective == pytest.approx(55)
 
 
-@pytest.mark.skipif(not _has("la01"), reason="run `linopt data jsplib` first")
+@pytest.mark.skipif(not _has("la01"), reason="run `linearmilpopt data jsplib` first")
 @pytest.mark.parametrize("name", ["la01", "la02", "la03", "la04", "la05"])
 def test_lawrence_instances_reach_published_optima(name: str, gurobi: SolverBackend) -> None:
     data, ref = jsplib.load_jsp(name)

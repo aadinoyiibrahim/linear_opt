@@ -24,11 +24,11 @@ click==8.5.0
 colorama==0.4.6 ; sys_platform == 'win32'
     # via typer
 gurobipy==13.0.3
-    # via linear-opt
+    # via linearmilpopt
 h11==0.16.0
     # via uvicorn
 highspy==1.15.1
-    # via linear-opt
+    # via linearmilpopt
 httptools==0.8.0
     # via streamlit
 idna==3.20
@@ -58,7 +58,7 @@ narwhals==2.26.0
 numpy==2.4.6 ; python_full_version < '3.12'
     # via
     #   highspy
-    #   linear-opt
+    #   linearmilpopt
     #   pandas
     #   pydeck
     #   scipy
@@ -66,7 +66,7 @@ numpy==2.4.6 ; python_full_version < '3.12'
 numpy==2.5.3 ; python_full_version >= '3.12'
     # via
     #   highspy
-    #   linear-opt
+    #   linearmilpopt
     #   pandas
     #   pydeck
     #   scipy
@@ -78,18 +78,18 @@ packaging==26.3
     #   streamlit
 pandas==3.0.6
     # via
-    #   linear-opt
+    #   linearmilpopt
     #   streamlit
 pillow==12.3.0
     # via streamlit
 plotly==7.1.0
-    # via linear-opt
+    # via linearmilpopt
 protobuf==7.36.2
     # via streamlit
 pyarrow==25.0.1
     # via streamlit
 pydantic==2.13.5
-    # via linear-opt
+    # via linearmilpopt
 pydantic-core==2.46.5
     # via pydantic
 pydeck==0.9.3
@@ -108,16 +108,16 @@ requests==2.34.2
     # via streamlit
 rich==15.0.0
     # via
-    #   linear-opt
+    #   linearmilpopt
     #   typer
 rpds-py==2026.6.3
     # via
     #   jsonschema
     #   referencing
 scipy==1.17.1 ; python_full_version < '3.12'
-    # via linear-opt
+    # via linearmilpopt
 scipy==1.18.1 ; python_full_version >= '3.12'
-    # via linear-opt
+    # via linearmilpopt
 shellingham==1.5.4
     # via typer
 six==1.17.0
@@ -125,11 +125,11 @@ six==1.17.0
 starlette==1.7.0
     # via streamlit
 streamlit==1.64.0
-    # via linear-opt
+    # via linearmilpopt
 toml==0.10.2
     # via streamlit
 typer==0.27.2
-    # via linear-opt
+    # via linearmilpopt
 typing-extensions==4.16.0
     # via
     #   altair

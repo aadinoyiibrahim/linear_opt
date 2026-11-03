@@ -6,7 +6,7 @@
 services:
   app:
     build: .
-    image: ghcr.io/aadinoyiibrahim/linear_opt:latest
+    image: ghcr.io/aadinoyiibrahim/linearmilpopt:latest
     command: ["app", "--headless", "--address", "0.0.0.0"]
     ports:
       - "8501:8501"
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   cli:
-    image: ghcr.io/aadinoyiibrahim/linear_opt:latest
+    image: ghcr.io/aadinoyiibrahim/linearmilpopt:latest
     profiles: ["cli"]
     volumes:
       - ./configs:/app/configs:ro

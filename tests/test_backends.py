@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import pytest
 
-from linear_opt.core import backends
-from linear_opt.core.backends import (
+from linearmilpopt.core import backends
+from linearmilpopt.core.backends import (
     BackendUnavailableError,
     available_backends,
     resolve_backend,
 )
-from linear_opt.core.config import BackendName
+from linearmilpopt.core.config import BackendName
 
 
 def _fake_installed(monkeypatch: pytest.MonkeyPatch, installed: set[BackendName]) -> None:

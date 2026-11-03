@@ -37,6 +37,6 @@ machine sequences and cannot increase the makespan. The critical path is then a
 chain of operations from time 0 to $C_{\max}$ whose durations sum to the
 makespan — a property the tests check on random instances.
 
-::: linear_opt.problems.jobshop
+::: linearmilpopt.problems.jobshop
 
-::: linear_opt.data.jsplib
+::: linearmilpopt.data.jsplib

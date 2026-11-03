@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from linear_opt.data import orlib
+from linearmilpopt.data import orlib
 
 # m=2 warehouses, n=3 customers; line breaks deliberately irregular.
 MINI = """ 2 3

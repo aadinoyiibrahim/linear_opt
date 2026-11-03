@@ -5,11 +5,11 @@ from dataclasses import replace
 import numpy as np
 import pytest
 
-from linear_opt.core.config import SolverSettings, load_config
-from linear_opt.data import tsplib
-from linear_opt.problems import registry
-from linear_opt.problems.cvrp import CVRPInstance, CVRPModel, CVRPSolution
-from linear_opt.solvers import SolverBackend
+from linearmilpopt.core.config import SolverSettings, load_config
+from linearmilpopt.data import tsplib
+from linearmilpopt.problems import registry
+from linearmilpopt.problems.cvrp import CVRPInstance, CVRPModel, CVRPSolution
+from linearmilpopt.solvers import SolverBackend
 
 from .conftest import CONFIG_DIR, INSTALLED, satisfies
 from .test_transport import CITIES
@@ -117,7 +117,7 @@ def test_from_cities_and_registry() -> None:
 HAS_A32 = (tsplib.fixture_dir("cvrplib") / "A-n32-k5.vrp").exists()
 
 
-@pytest.mark.skipif(not HAS_A32, reason="run `linopt data cvrplib A-n32-k5` first")
+@pytest.mark.skipif(not HAS_A32, reason="run `linearmilpopt data cvrplib A-n32-k5` first")
 def test_reference_routes_reproduce_published_cost() -> None:
     """Checks our reading of the .vrp distances and the .sol node numbering."""
     problem, cost, routes = tsplib.load_cvrplib("A-n32-k5")
@@ -127,7 +127,7 @@ def test_reference_routes_reproduce_published_cost() -> None:
     assert all(data.demand[r].sum() <= data.capacity for r in routes)
 
 
-@pytest.mark.skipif(not HAS_A32, reason="run `linopt data cvrplib A-n32-k5` first")
+@pytest.mark.skipif(not HAS_A32, reason="run `linearmilpopt data cvrplib A-n32-k5` first")
 def test_a_n32_k5_is_solved_to_the_published_optimum(gurobi: SolverBackend) -> None:
     model = registry.model_from_config(load_config(CONFIG_DIR / "cvrp_a_n32_k5.toml"))
     result = model.solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=gurobi)

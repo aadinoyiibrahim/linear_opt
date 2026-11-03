@@ -1,6 +1,6 @@
 # Capacitated facility location, OR-Library cap41: 16 sites x 50 customers.
 # Published optimum 1 040 444.375 (Beasley, capopt.txt). Fetch data once:
-#   uv run linopt data orlib-cap
+#   uv run linearmilpopt data orlib-cap
 [problem]
 kind = "facility_location"
 name = "cap41"

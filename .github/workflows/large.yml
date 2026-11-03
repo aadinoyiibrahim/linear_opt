@@ -41,7 +41,7 @@ jobs:
         if: env.HAS_LICENCE == 'true'
         run: |
           uv sync --locked --all-extras
-          uv run linopt data orlib-cap cap131 cap134
+          uv run linearmilpopt data orlib-cap cap131 cap134
       - name: Large tests
         if: env.HAS_LICENCE == 'true'
         run: uv run pytest -m large -v

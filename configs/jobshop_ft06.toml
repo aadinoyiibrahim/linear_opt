@@ -1,5 +1,5 @@
 # Fisher & Thompson ft06: 6 jobs x 6 machines, optimal makespan 55 (JSPLIB).
-# Fetch data once:  uv run linopt data jsplib
+# Fetch data once:  uv run linearmilpopt data jsplib
 [problem]
 kind = "job_shop"
 name = "ft06"

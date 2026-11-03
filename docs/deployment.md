@@ -3,15 +3,15 @@
 ## Docker
 
 ```bash
-docker build -t linear-opt .
-docker run --rm linear-opt solve configs/jobshop_ft06.toml
-docker run --rm -p 8501:8501 linear-opt app --headless --address 0.0.0.0
+docker build -t linearmilpopt .
+docker run --rm linearmilpopt solve configs/jobshop_ft06.toml
+docker run --rm -p 8501:8501 linearmilpopt app --headless --address 0.0.0.0
 docker compose up          # dashboard with health check
 ```
 
 The image installs the project as a wheel (benchmark snapshots included),
 runs as uid 1000, and reads presets from `/app/configs`
-(`LINEAR_OPT_CONFIG_DIR`). Mount a licence file and set `GRB_LICENSE_FILE` for
+(`LINEARMILPOPT_CONFIG_DIR`). Mount a licence file and set `GRB_LICENSE_FILE` for
 a full Gurobi licence; otherwise the restricted pip licence is used and HiGHS
 is always available.
 

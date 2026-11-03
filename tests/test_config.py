@@ -7,7 +7,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from pydantic import ValidationError
 
-from linear_opt.core.config import (
+from linearmilpopt.core.config import (
     BackendName,
     ConfigError,
     ProblemKind,

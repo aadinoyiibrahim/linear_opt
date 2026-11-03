@@ -23,4 +23,4 @@ if its reduced cost $c_{ij} - u_i - v_j$ is zero (complementary slackness).
 * property tests: adding $k$ to all costs into sink $j$ raises the optimum by
   exactly $k\,d_j$; scaling all costs by $\alpha$ scales the optimum by $\alpha$.
 
-::: linear_opt.problems.transport
+::: linearmilpopt.problems.transport

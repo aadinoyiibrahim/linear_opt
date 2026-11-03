@@ -1,5 +1,5 @@
 # Random 6 jobs x 4 machines, durations 1..10; no download needed.
-# Compare formulations: uv run linopt variants configs/jobshop_synthetic.toml
+# Compare formulations: uv run linearmilpopt variants configs/jobshop_synthetic.toml
 [problem]
 kind = "job_shop"
 name = "synthetic-6x4"
