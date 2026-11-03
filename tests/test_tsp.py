@@ -19,7 +19,7 @@ from linearmilpopt.problems.tsp import (
 )
 from linearmilpopt.solvers import SolverBackend
 
-from .conftest import CONFIG_DIR, INSTALLED, satisfies
+from .conftest import CONFIG_DIR, INSTALLED, full_licence_required, satisfies
 from .test_transport import CITIES
 
 EXACT = SolverSettings(time_limit=60, mip_gap=0.0)
@@ -173,6 +173,7 @@ def test_large_tsplib_instances(name: str, gurobi: SolverBackend) -> None:
         pytest.skip(f"run `linearmilpopt data tsplib {name}` first")
     problem, optimum, tour = tsplib.load_tsplib(name)
     model = TSPModel(TSPInstance.from_tsplib(problem, optimum, tour))
-    result = model.solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=gurobi)
+    with full_licence_required():
+        result = model.solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=gurobi)
     assert result.ok
     assert result.raw.objective == pytest.approx(optimum)

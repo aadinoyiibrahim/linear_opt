@@ -20,7 +20,7 @@ from linearmilpopt.problems.facility import (
 )
 from linearmilpopt.solvers import SolverBackend
 
-from .conftest import CONFIG_DIR, INSTALLED
+from .conftest import CONFIG_DIR, INSTALLED, full_licence_required
 from .test_transport import CITIES
 
 EXACT = SolverSettings(time_limit=30, mip_gap=0.0)
@@ -183,5 +183,8 @@ def test_large_cap_instances(name: str, backend: SolverBackend) -> None:
     if not (orlib.fixture_dir() / f"{name}.txt").exists():
         pytest.skip(f"run `linearmilpopt data orlib-cap {name}` first")
     data = FacilityInstance.from_orlib(orlib.load_cap(name), orlib.known_optimum(name))
-    result = FacilityModel(data).solve(SolverSettings(time_limit=600, mip_gap=0.0), backend=backend)
+    with full_licence_required():
+        result = FacilityModel(data).solve(
+            SolverSettings(time_limit=600, mip_gap=0.0), backend=backend
+        )
     assert result.raw.objective == pytest.approx(data.reference, rel=1e-7)

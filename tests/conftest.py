@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
@@ -9,7 +10,7 @@ from hypothesis import HealthCheck, settings
 
 from linearmilpopt.core.backends import is_available
 from linearmilpopt.core.config import BackendName
-from linearmilpopt.solvers import SolverBackend, create_backend
+from linearmilpopt.solvers import LicenseLimitError, SolverBackend, create_backend
 
 # CI runs property tests derandomised (reproducible failures); locally they explore.
 settings.register_profile(
@@ -23,6 +24,20 @@ CONFIG_DIR = ROOT / "configs"
 INSTALLED = [b for b in (BackendName.GUROBI, BackendName.HIGHS) if is_available(b)]
 
 WriteToml = Callable[..., Path]
+
+
+@contextmanager
+def full_licence_required() -> Iterator[None]:
+    """Skip (not fail) when a model exceeds the restricted Gurobi licence.
+
+    The ``large`` instances need a full licence; without one Gurobi refuses the
+    model and the test is reported as skipped with the reason. Wrong answers
+    still fail: only the licence error is turned into a skip.
+    """
+    try:
+        yield
+    except LicenseLimitError as exc:
+        pytest.skip(f"needs a full Gurobi licence ({exc})")
 
 
 @pytest.fixture(autouse=True)
