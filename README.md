@@ -28,6 +28,7 @@ Try Live app <a href="https://linearopt.streamlit.app/">linearopt.streamlit.app<
 | Vehicle routing (CVRP) | MILP + lazy cuts | CVRPLIB A-n32-k5, German cities, synthetic |
 | Job-shop scheduling | MILP | JSPLIB (ft06, la01–la40, …), synthetic |
 
+<!--
 ## 0. Generate the Package Structural Plot
 
 ```
@@ -36,6 +37,8 @@ uv run pyreverse -o png -p linear_opt src/linear_opt/
 ```
 
 ![Alternative Text](./packages_linear_opt.png)
+
+-->
 
 ---
 
