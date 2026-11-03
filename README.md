@@ -466,7 +466,7 @@ from linear_opt.viz.transport import flow_map, shadow_prices
 flow_map(inst, sol).show()
 shadow_prices(inst, sol, dark=True).show()
 ```
-
+<!--
 ### Build your own model (solver-neutral)
 
 Models are written once against a small block-based builder and run on any backend:
@@ -505,7 +505,7 @@ raw = backend.solve(lm, settings, lazy=oracle)
 Gurobi adds the cuts inside branch-and-bound (`cbLazy`). HiGHS has no lazy
 callback, so the backend uses row generation (solve, separate, re-solve). Both
 reach the same optimum.
-
+-->
 ## 9. Configuration reference
 
 ```toml
