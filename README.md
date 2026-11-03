@@ -16,7 +16,9 @@ so everything also runs without a commercial licence. Models are solved on real 
   <img src="docs/assets/transport_flows.gif" width="540"
        alt="Optimal transport plan between 40 German cities: shipments drawn largest first, with the running cost">
 </p>
-<p align="center"><sub>Optimal transport between 40 German cities (LP, 256 variables), solved by Gurobi. Try it in the <a href="https://linearopt.streamlit.app/">live dashboard</a>; regenerate with <code>uv run --with kaleido python scripts/make_readme_gif.py</code>.</sub></p>
+<p align="center"><sub>Optimal transport between 40 German cities (LP, 256 variables), solved by Gurobi. </sub></p>
+
+Try Live app <a href="https://linearopt.streamlit.app/">linearopt.streamlit.app</a>
 
 | Problem | Class | Data |
 |---|---|---|
